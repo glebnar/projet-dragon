@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'antre de Glebnar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- navigation -->
+    <div class="row-fluid navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a href="index.html" class="navbar-brand col-sm-2 text-wrap text-center">L'antre de Glebnar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav"
+                aria-controls="navbarnav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse col-sm-10" id="navbarnav">
+                <div class="navbar-nav">
+                    <a href="index.html" class="nav-item nav-link">Accueil</a>
+                    <div class="dropdown">
+                        <a class="nav-item nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Races
+                        </a>
+                        <div class="dropdown-menu bg-dark ">
+                            <a class="dropdown-item nav-link" href="#">Elfes</a>
+                            <a class="dropdown-item nav-link" href="#">Halfelins</a>
+                            <a class="dropdown-item nav-link" href="#">Humains</a>
+                            <a class="dropdown-item nav-link" href="#">Nains</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a class="nav-item nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Classes
+                        </a>
+                        <div class="dropdown-menu bg-dark ">
+                            <a class="dropdown-item nav-link" href="#">Clerc</a>
+                            <a class="dropdown-item nav-link" href="#">Guerrier</a>
+                            <a class="dropdown-item nav-link" href="#">Magicien</a>
+                            <a class="dropdown-item nav-link" href="#">Roublard</a>
+                        </div>
+                    </div>
+                    <a href="index.html" class="nav-item nav-link">Créateur de personnage</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- --- -->
+    <!-- banniere -->
+    <div class="row-fluid">
+        <img src="src/img/banner.jpg" alt="Banniere" class="img-fluid  p-0">
+    </div>
+    <!-- ---  -->
+    <!-- contenu de page -->
+    <div class="container">
+        <fieldset>
+            <form action="http://bienvu.net/script.php" method="POST">
+
+                <legend class="h2">Feuille de personnage</legend>
+                <!-- 1ere ligne Feuille -->
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        <label for="nom">Nom: </label>
+                        <input class="form-control " type="text" name="nom" id="nom">
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="race">Race </label>
+                        <select name="race" id="race" class="form-control">
+                            <option value="">Choisissez</option>
+                            <option value="elfe">Elfe</option>
+                            <option value="halfelin">Halfelin</option>
+                            <option value="humain">Humain</option>
+                            <option value="nain">Nains</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="classe">Classe</label>
+                        <select name="classe" id="classe" class="form-control">
+                            <option value="">choisissez</option>
+                            <option value="clerc">Clerc</option>
+                            <option value="guerrier">Guerrier</option>
+                            <option value="magicien">Magicien</option>
+                            <option value="roublard">Roublard</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="historique">Historique</label>
+                        <select name="historique" id="historique" class="form-control">
+                            <option value="">Choisissez</option>
+                            <option value="acolyte">Acolyte</option>
+                            <option value="criminel">Criminel</option>
+                            <option value="hero">Héros du peuple</option>
+                            <option value="noble">Noble</option>
+                            <option value="sage">Sage</option>
+                            <option value="soldat">Soldat</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ligne carac + image -->
+                <div class="row">
+                    <div class="col-sm-12 col-md-8">
+                        <table class="table table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>Caractéristique</th>
+                                    <th>Base</th>
+                                    <th>Bonus</th>
+                                    <th>Total</th>
+                                    <th>Modificateur</th>
+                                    <th></th>
+                                    <th>Sauvegardes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-bordered">
+                                <tr>
+                                    <td> <label for="for">Force</label> </td>
+                                    <td><input type="number" class="form-control p-0 text-center" name="for" id="for">
+                                    </td>
+                                    <td> <input type="text" class="form-control p-0 text-center" name="bfor" id="bfor"
+                                            readonly></td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="tfor" id="tfor"
+                                            readonly></td>
+                                    <td><input type="text" name="mfor" id="mfor" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td></td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="sfor" id="sfor"
+                                            readonly>
+                                        </td>
+
+                                </tr>
+                                <tr>
+                                    <td> <label for="dex">Dextérité</label></td>
+                                    <td><input type="number" name="dex" id="dex" class="form-control p-0 text-center">
+                                    </td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="bdex" id="bdex"
+                                            readonly></td>
+                                    <td><input type="text" name="tdex" id="tdex" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td><input type="text" name="mdex" id="mdex" class="form-control p-0 text-center"
+                                            readonly></td>
+                                            <td></td>
+                                            <td><input type="text" class="form-control p-0 text-center" name="sdex" id="sdex"
+                                                    readonly>
+                                                </td>
+                                </tr>
+                                <tr>
+                                    <td> <label for="con">Constitution</label></td>
+                                    <td><input type="number" name="con" id="con" class="form-control p-0 text-center">
+                                    </td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="bcon" id="bcon"
+                                            readonly></td>
+                                    <td><input type="text" name="tcon" id="tcon" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td><input type="text" name="mcon" id="mcon" class="form-control p-0 text-center"
+                                            readonly></td>
+                                            <td></td>
+                                            <td><input type="text" class="form-control p-0 text-center" name="scon" id="scon"
+                                                    readonly>
+                                                </td>
+                                </tr>
+                                <tr>
+                                    <td> <label for="int">Intelligence</label></td>
+                                    <td><input type="number" name="int" id="int" class="form-control p-0 text-center">
+                                    </td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="bint" id="bint"
+                                            readonly></td>
+                                    <td><input type="text" name="tint" id="tint" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td><input type="text" name="mint" id="mint" class="form-control p-0 text-center"
+                                            readonly></td>
+                                            <td></td>
+                                            <td><input type="text" class="form-control p-0 text-center" name="sint" id="sint"
+                                                    readonly>
+                                                </td>
+                                </tr>
+                                <tr>
+                                    <td> <label for="sag">Sagesse</label></td>
+                                    <td><input type="number" name="sag" id="sag" class="form-control p-0 text-center">
+                                    </td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="bsag" id="bsag"
+                                            readonly></td>
+                                    <td><input type="text" name="tsag" id="tsag" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td><input type="text" name="msag" id="msag" class="form-control p-0 text-center"
+                                            readonly></td>
+                                            <td></td>
+                                            <td><input type="text" class="form-control p-0 text-center" name="ssag" id="ssag"
+                                                    readonly>
+                                                </td>
+                                </tr>
+                                <tr>
+                                    <td> <label for="cha">Charisme</label></td>
+                                    <td><input type="number" name="cha" id="cha" class="form-control p-0 text-center">
+                                    </td>
+                                    <td><input type="text" class="form-control p-0 text-center" name="bcha" id="bcha"
+                                            readonly></td>
+                                    <td><input type="text" name="tcha" id="tcha" class="form-control p-0 text-center"
+                                            readonly></td>
+                                    <td><input type="text" name="mcha" id="mcha" class="form-control p-0 text-center"
+                                            readonly></td>
+                                            <td></td>
+                                            <td><input type="text" class="form-control p-0 text-center" name="scha" id="scha"
+                                                    readonly>
+                                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                            <div class="d-sm-none d-md-block col-md-4 p-0">
+                                <img src="src/img/gold-dragon.jpg" class="img-fluid" alt="illustration de la classe" id="imgclasse">
+                            </div>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+    </div>
+    <!-- pied de page -->
+    <div class="navbar row-fluid navbar-expand-sm navbar-light bg-light mt-2">
+        <div class="container">
+            <div class="navbar-nav pl-2">
+                <a href="#" class="nav-item nav-link">Lorem</a>
+                <a href="#" class="nav-item nav-link">ipsum</a>
+            </div>
+            <p class=" nav-link text-right">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+
+        </div>
+    </div>
+    <!-- ---  -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
