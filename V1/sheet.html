@@ -7,6 +7,7 @@
     <title>L'antre de Glebnar</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 
 <body>
@@ -26,7 +27,7 @@
                             aria-haspopup="true" aria-expanded="false">
                             Races
                         </a>
-                        <div class="dropdown-menu bg-dark ">
+                        <div class="dropdown-menu bg-dark">
                             <a class="dropdown-item nav-link" href="#">Elfes</a>
                             <a class="dropdown-item nav-link" href="#">Halfelins</a>
                             <a class="dropdown-item nav-link" href="#">Humains</a>
@@ -45,7 +46,7 @@
                             <a class="dropdown-item nav-link" href="#">Roublard</a>
                         </div>
                     </div>
-                    <a href="index.html" class="nav-item nav-link">Créateur de personnage</a>
+                    <a href="sheet.html" class="nav-item nav-link">Créateur de personnage</a>
 
                 </div>
             </div>
@@ -59,8 +60,8 @@
     <!-- ---  -->
     <!-- contenu de page -->
     <div class="container shadow bg-white ">
-        <fieldset>
-            <form action="http://bienvu.net/script.php" method="POST">
+        <form action="http://bienvu.net/script.php" method="POST">
+            <fieldset>
 
                 <legend class="h2">Feuille de personnage</legend>
                 <!-- partie supérieur de la Feuille -->
@@ -120,10 +121,11 @@
                             <tbody>
                                 <tr>
                                     <td> <label for="for">Force</label> </td>
-                                    <td><input type="number" class="form-control p-0 text-center" name="for" id="carac1">
+                                    <td><input type="number" class="form-control p-0 text-center" name="for"
+                                            id="carac1">
                                     </td>
-                                    <td> <input type="text" class="form-control p-0 text-center" name="bfor" id="carac11"
-                                            readonly></td>
+                                    <td> <input type="text" class="form-control p-0 text-center" name="bfor"
+                                            id="carac11" readonly></td>
                                     <td><input type="text" class="form-control p-0 text-center" name="tfor" id="carac21"
                                             readonly></td>
                                     <td><input type="text" name="mfor" id="carac31" class="form-control p-0 text-center"
@@ -136,7 +138,8 @@
                                 </tr>
                                 <tr>
                                     <td> <label for="dex">Dextérité</label></td>
-                                    <td><input type="number" name="dex" id="carac2" class="form-control p-0 text-center">
+                                    <td><input type="number" name="dex" id="carac2"
+                                            class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bdex" id="carac12"
                                             readonly></td>
@@ -151,7 +154,8 @@
                                 </tr>
                                 <tr>
                                     <td> <label for="con">Constitution</label></td>
-                                    <td><input type="number" name="con" id="carac3" class="form-control p-0 text-center">
+                                    <td><input type="number" name="con" id="carac3"
+                                            class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bcon" id="carac13"
                                             readonly></td>
@@ -166,7 +170,8 @@
                                 </tr>
                                 <tr>
                                     <td> <label for="int">Intelligence</label></td>
-                                    <td><input type="number" name="int" id="carac4" class="form-control p-0 text-center">
+                                    <td><input type="number" name="int" id="carac4"
+                                            class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bint" id="carac14"
                                             readonly></td>
@@ -181,7 +186,8 @@
                                 </tr>
                                 <tr>
                                     <td> <label for="sag">Sagesse</label></td>
-                                    <td><input type="number" name="sag" id="carac5" class="form-control p-0 text-center">
+                                    <td><input type="number" name="sag" id="carac5"
+                                            class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bsag" id="carac15"
                                             readonly></td>
@@ -196,7 +202,8 @@
                                 </tr>
                                 <tr>
                                     <td> <label for="cha">Charisme</label></td>
-                                    <td><input type="number" name="cha" id="carac6" class="form-control p-0 text-center">
+                                    <td><input type="number" name="cha" id="carac6"
+                                            class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bcha" id="carac16"
                                             readonly></td>
@@ -215,6 +222,9 @@
                         <hr>
                         <!-- partie inférieur de la feuille  -->
                         <div class="row">
+                            <p class="text-danger mx-4" id="msgcomp"></p>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6 col-md-4">
                                 <!-- -------------------------tableau des compétences--------------------  -->
                                 <table class="table table-sm ">
@@ -226,155 +236,174 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="checkbox" name="acro" id="comp1"onclick="FCheckComp(1)"></td>
+                                            <td><input type="checkbox" name="ath" id="comp1" onclick="FCheckComp()">
+                                            </td>
+                                            <td><label for="ath">Athlétisme</label>
+                                            </td>
+                                            <td><input type="text" name="vath" id="vcomp1"
+                                                    class=" form-control text-center " readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="dis" id="comp2" onclick="FCheckComp()">
+                                            </td>
+                                            <td>
+                                                <label for="dis">Discrétion</label>
+                                            </td>
+                                            <td><input type="text" name="vdis" id="vcomp2"
+                                                    class=" form-control text-center " readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" name="acro" id="comp3" onclick="FCheckComp()">
+                                            </td>
                                             <td><label for="acro">Acrobatie</label></td>
-                                            <td><input type="text" name="vacro" id="vcomp1"
+                                            <td><input type="text" name="vacro" id="vcomp3"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
-                                            <td><input type="checkbox" name="arc" id="comp2"onclick="FCheckComp(2)"></td>
-                                            <td><label for="acro">Arcane</label></td>
-                                            <td><input type="text" name="varc" id="vcomp2"
-                                                    class=" form-control text-center " readonly></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="ath" id="comp3"onclick="FCheckComp(3)"></td>
-                                            <td><label for="acro">Athlétisme</label>
+                                            <td>
+                                                <input type="checkbox" name="esc" id="comp4" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vath" id="vcomp3"
+                                            <td>
+                                                <label for="esc">Escamotage</label>
+                                            </td>
+                                            <td><input type="text" name="vesc" id="vcomp4"
+                                                    class=" form-control text-center " readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" name="arc" id="comp5" onclick="FCheckComp()">
+                                            </td>
+                                            <td><label for="arc">Arcane</label></td>
+                                            <td><input type="text" name="varc" id="vcomp5"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="dis" id="comp4"onclick="FCheckComp(4)"></td>
-                                            <td>
-                                                <label for="acro">Discrétion</label>
+                                                <input type="checkbox" name="his" id="comp6" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vdis" id="vcomp4"
+                                            <td>
+                                                <label for="his">Histoire</label>
+                                            </td>
+                                            <td><input type="text" name="vhis" id="vcomp6"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="dre" id="comp5"onclick="FCheckComp(5)"></td>
-                                            <td>
-                                                <label for="acro">Dressage</label>
+                                                <input type="checkbox" name="inv" id="comp7" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vdre" id="vcomp5"
+                                            <td>
+                                                <label for="inv">Investigation</label>
+                                            </td>
+                                            <td><input type="text" name="vinv" id="vcomp7"
+                                                    class=" form-control text-center " readonly></td>
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="nat" id="comp8" onclick="FCheckComp()">
+                                            </td>
+                                            <td>
+                                                <label for="nat">Nature</label>
+                                            </td>
+                                            <td><input type="text" name="vnat" id="vcomp8"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="esc" id="comp6"onclick="FCheckComp(6)"></td>
-                                            <td>
-                                                <label for="acro">Escamotage</label>
+                                                <input type="checkbox" name="rel" id="comp9" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vesc" id="vcomp6"
-                                                    class=" form-control text-center " readonly></td>
-                                        </tr>
-                                        <tr>
                                             <td>
-                                                <input type="checkbox" name="his" id="comp7"onclick="FCheckComp(7)"></td>
-                                            <td>
-                                                <label for="acro">Histoire</label>
+                                                <label for="rel">Religion</label>
                                             </td>
-                                            <td><input type="text" name="vhis" id="vcomp7"
-                                                    class=" form-control text-center " readonly></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="inti" id="comp8"onclick="FCheckComp(8)"></td>
-                                            <td>
-                                                <label for="acro">Intimidation</label>
-                                            </td>
-                                            <td><input type="text" name="vinti" id="vcomp8"
-                                                    class=" form-control text-center " readonly></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="inv" id="comp9"onclick="FCheckComp(9)"></td>
-                                            <td>
-                                                <label for="acro">Investigation</label>
-                                            </td>
-                                            <td><input type="text" name="vinv" id="vcomp9"
+                                            <td><input type="text" name="vrel" id="vcomp9"
                                                     class=" form-control text-center" readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="med" id="comp10"onclick="FCheckComp(10)"></td>
-                                            <td>
-                                                <label for="acro">Médecine</label>
+                                                <input type="checkbox" name="dre" id="comp10" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vmed" id="vcomp10"
-                                                    class=" form-control text-center"  readonly></td>
-                                        </tr>
-                                        <tr>
                                             <td>
-                                                <input type="checkbox" name="nat" id="comp11"onclick="FCheckComp(11)"></td>
-                                            <td>
-                                                <label for="acro">Nature</label>
+                                                <label for="dre">Dressage</label>
                                             </td>
-                                            <td><input type="text" name="vnat" id="vcomp11"
+                                            <td><input type="text" name="vdre" id="vcomp10"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="perc" id="comp12" onclick="FCheckComp(12)"></td>
+                                                <input type="checkbox" name="med" id="comp11" onclick="FCheckComp()">
+                                            </td>
                                             <td>
-                                                <label for="acro">Perception</label>
+                                                <label for="med">Médecine</label>
+                                            </td>
+                                            <td><input type="text" name="vmed" id="vcomp11"
+                                                    class=" form-control text-center" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="perc" id="comp12" onclick="FCheckComp()">
+                                            </td>
+                                            <td>
+                                                <label for="perc">Perception</label>
                                             </td>
                                             <td><input type="text" name="vperc" id="vcomp12"
                                                     class=" form-control text-center" readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="persp" id="comp13"onclick="FCheckComp(13)"></td>
+                                                <input type="checkbox" name="persp" id="comp13" onclick="FCheckComp()">
+                                            </td>
                                             <td>
-                                                <label for="acro">Perspicacité</label>
+                                                <label for="persp">Perspicacité</label>
                                             </td>
                                             <td><input type="text" name="vpersp" id="vcomp13"
                                                     class=" form-control text-center" readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="persu" id="comp14" onclick="FCheckComp(14)"></td>
-                                            <td>
-                                                <label for="acro">Persuasion</label>
+                                                <input type="checkbox" name="sur" id="comp14" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vpersu" id="vcomp14"
+                                            <td>
+                                                <label for="sur">Survie</label>
+                                            </td>
+                                            <td><input type="text" name="vsur" id="vcomp14"
                                                     class=" form-control text-center" readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="rel" id="comp15"onclick="FCheckComp(15)"></td>
-                                            <td>
-                                                <label for="acro">Religion</label>
+                                                <input type="checkbox" name="inti" id="comp15" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vrel" id="vcomp15"
-                                                    class=" form-control text-center" readonly></td>
-                                        </tr>
-                                        <tr>
                                             <td>
-                                                <input type="checkbox" name="rep" id="comp16"onclick="FCheckComp(16)"></td>
-                                            <td>
-                                                <label for="acro">Representation</label>
+                                                <label for="inti">Intimidation</label>
                                             </td>
-                                            <td><input type="text" name="vrep" id="vcomp16"
+                                            <td><input type="text" name="vinti" id="vcomp15"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="sur" id="comp17" onclick="FCheckComp(17)"></td>
-                                            <td>
-                                                <label for="acro">Survie</label>
+                                                <input type="checkbox" name="persu" id="comp16" onclick="FCheckComp()">
                                             </td>
-                                            <td><input type="text" name="vsur" id="vcomp17"
+                                            <td>
+                                                <label for="persu">Persuasion</label>
+                                            </td>
+                                            <td><input type="text" name="vpersu" id="vcomp16"
                                                     class=" form-control text-center" readonly></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="tro" id="comp18"onclick="FCheckComp(18)"></td>
+                                                <input type="checkbox" name="rep" id="comp17" onclick="FCheckComp(16)">
+                                            </td>
                                             <td>
-                                                <label for="acro">Tromperie</label>
+                                                <label for="rep">Representation</label>
+                                            </td>
+                                            <td><input type="text" name="vrep" id="vcomp17"
+                                                    class=" form-control text-center " readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="tro" id="comp18" onclick="FCheckComp(18)">
+                                            </td>
+                                            <td>
+                                                <label for="tro">Tromperie</label>
                                             </td>
                                             <td><input type="text" name="vtro" id="vcomp18"
                                                     class=" form-control text-center" readonly></td>
@@ -399,6 +428,18 @@
                                         <input type="text" name="vitesse" id="vitesse" class="form-control">
                                     </div>
                                 </div>
+                                <!-- hp et dv -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="pv">PV</label>
+                                        <input type="text" name="pv" id="pv" class="form-control ">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="dv">DV</label>
+                                        <input type="text" name="dv" id="dv" class="form-control col-auto">
+                                    </div>
+                                </div>
+
                                 <!-- Capacités---------------------------------------------------  -->
                                 <div class="row">
                                     <table class="table table-borderless">
@@ -409,7 +450,11 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><div id=desccapa></div></td>
+                                                <td>
+                                                    <div id=desccapa>
+
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
 
@@ -420,11 +465,17 @@
                     </div>
                     <!-- image colonne de droite  -->
                     <div class="d-none d-lg-block col-lg-5 p-0">
-                        <img src="src/img/gold-dragon.jpg" class="img-fluid" alt="illustration de la classe" id="imgclasse">
+                        <img src="src/img/gold-dragon.jpg" class="img-fluid" alt="illustration de la classe"
+                            id="imgclasse">
                     </div>
                 </div>
-            </form>
-        </fieldset>
+            </fieldset>
+            <!-- boutons de validation/reset  -->
+            <div class="row mx-auto pb-3" style="width: 200px">
+                <button type="submit" class="btn btn-dark mr-2 ">envoyer</button>
+                <button type="button" class="btn btn-dark " id="reset">annuler</button>
+            </div>
+        </form>
     </div>
     </div>
     <!-- pied de page -->
@@ -448,7 +499,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-        <script src="src/js/sheet.js"></script>
+    <script src="src/js/sheet.js"></script>
 </body>
 
 </html>
