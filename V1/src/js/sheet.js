@@ -1,12 +1,7 @@
+// récupére les champs de du formulaire
 var Vrace = document.getElementById("race");
 var Vclasse = document.getElementById("classe");
 var Vhisto = document.getElementById("historique");
-var Force = document.getElementById("for");
-var Dext = document.getElementById("dex");
-var Cons = document.getElementById("con");
-var Inte = document.getElementById("int");
-var Sage = document.getElementById("sag");
-var Char = document.getElementById("cha");
 var Armure = document.getElementById("CA");
 var init = document.getElementById("initiative");
 var Vit = document.getElementById("vitesse");
@@ -14,6 +9,8 @@ var PV = document.getElementById("pv");
 var DV = document.getElementById("dv");
 var MsgComp = document.getElementById("msgcomp");
 var DesCapa = document.getElementById("desccapa");
+// -------
+
 var CheckComp = [];
 var ValComp = [];
 var TabCar = [];
@@ -198,7 +195,7 @@ function Frace() {
             }
             BonCar[1] = 1;
             BonCar[3] = 2;
-            IMG.src = "src/img/nain.jpg"
+            IMG.src = "src/img/nain.png"
             Vit.value = "7,5m";
             DesCapa.innerHTML = "";
 
@@ -347,3 +344,4 @@ function Freset() {
     FCheckComp()
 
 }
+
