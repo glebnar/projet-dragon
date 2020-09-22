@@ -13,22 +13,54 @@
 
 
 -- Listage de la structure de la base pour dragon
-CREATE DATABASE IF NOT EXISTS `dragon` /*!40100 DEFAULT CHARACTER SET latin1 */;
+DROP DATABASE IF EXISTS `dragon`;
+CREATE DATABASE  `dragon` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `dragon`;
+
+-- Listage de la structure de la table dragon. classes
+CREATE TABLE IF NOT EXISTS `classes` (
+  `cla_ID` int(11) NOT NULL,
+  `cla_nom` varchar(30) NOT NULL,
+  `cla_DV` int(11) NOT NULL,
+  `cla_competences` text NOT NULL,
+  `cla_save` text NOT NULL,
+  `cla_outil` text NOT NULL,
+  `cla_armure` text NOT NULL,
+  `cla_arme` text NOT NULL,
+  PRIMARY KEY (`cla_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Listage des données de la table dragon.classes : ~12 rows (environ)
+/*!40000 ALTER TABLE `classes` DISABLE KEYS */;
+REPLACE INTO `classes` (`cla_ID`, `cla_nom`, `cla_DV`, `cla_competences`, `cla_save`, `cla_outil`, `cla_armure`, `cla_arme`) VALUES
+	(1, 'barbare', 12, 'choisissez deux competences parmi Athletisme, Dressage, Intimidation, Nature, Perception et Survie', 'force,constitution', 'aucun', 'armures legeres, armures intermediaires, boucliers', 'armes courantes, armes de guerre'),
+	(2, 'barde', 8, 'choisissez trois competences de votre choix', 'dexterite, charisme', 'trois instruments de musique de votre choix', 'armures légères', 'armes courantes, arbalète de poing, épée longue, épée courte, rapière'),
+	(3, 'clerc', 8, 'choisissez deux competences parmi Histoire, Médecine, Perspicacite, Persuasion et Religion', 'sagesse, charisme', 'aucun', 'armures légères et intermédiaires, boucliers', 'armes courantes'),
+	(4, 'druide', 8, 'choisissez deux competences parmi Arcanes, Dressage, Médecine, Nature, Perception, Perspicacite, Religion et Survie', 'intelligence,sagesse', 'kit d\'herboriste', 'armures légères et intermédiaires, boucliers (un druide n\'utilisera pas d\'armure ou de bouclier en métal)', 'gourdin, dague, fléchette, javeline, masse d\'armes, bâton, cimeterre, fronde, serpe, lance'),
+	(5, 'ensorceleur', 6, 'choisissez deux competences parmi Arcanes, Intimidation, Perspicacite, Persuasion, Religion et Tromperie', 'constitution,charisme', 'aucun', 'aucune', 'dague, fléchette, fronde, bâton, arbalète légère'),
+	(6, 'guerrier', 10, 'choisissez deux competences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Perception, Perspicacite et Survie', 'force,constitution', 'aucun', 'toutes les armures, boucliers', 'armes courantes, armes de guerre'),
+	(7, 'magicien', 6, 'choisissez deux competences parmi Arcanes, Histoire, Investigation, Médecine, Perspicacite et Religion', 'intelligence,sagesse', 'aucun', 'aucune', 'dague, fléchettes, fronde, bâton, arbalète légère'),
+	(8, 'moine', 8, 'choisissez deux competences parmi Acrobaties, Athletisme, Discretion, Histoire, Perspicacite et Religion', 'force,dextérité', 'un outil d\'artisan ou un instrument de musique de votre choix', 'aucune', 'armes courantes, épée courte'),
+	(9, 'paladin', 10, 'choisissez deux competences parmi Athletisme, Intimidation, Medecine, Perspicacite, Persuasion et Religion', 'sagesse,charisme', 'aucun', 'toutes les armures, boucliers', 'armes courantes, armes de guerre'),
+	(10, 'rodeur', 10, 'choisissez trois competences parmi Athletisme, Discretion, Dressage, Investigation, Nature, Perception, Perspicacite et Survie', 'force,dexterite', 'aucun', 'armures légères et intermédiaires, boucliers', 'armes courantes, armes de guerre'),
+	(11, 'roublard', 8, 'choisissez quatre competences parmi Acrobaties, Athletisme, Discretion, Escamotage, Intimidation, Investigation, Perception, Perspicacite, Persuasion, Representation et Tromperie', 'dexterite,intelligence', 'outils de voleur', 'armures légères', 'armes courantes, arbalète de poing, épée courte, épée longue, rapière'),
+	(12, 'sorcier', 8, 'choisissez deux competences parmi Arcanes, Histoire, Intimidation, Investigation, Nature, Religion et Tromperie', 'sagesse,charisme', 'aucun', 'armures légères', 'armes courantes');
+/*!40000 ALTER TABLE `classes` ENABLE KEYS */;
 
 -- Listage de la structure de la table dragon. capacite_classe
 CREATE TABLE IF NOT EXISTS `capacite_classe` (
   `capcl_id` int(11) NOT NULL AUTO_INCREMENT,
   `capcl_cla_ID` int(11) NOT NULL DEFAULT '0',
-  `capcl_sousclasse` varchar(30) DEFAULT NULL,
+  `capcl_sousclasse` int(11) DEFAULT NULL,
   `capcl_niveau` int(11) NOT NULL DEFAULT '0',
   `capcl_nom_capacite` text,
   `capcl_description` text,
-  PRIMARY KEY (`capcl_id`),
-  KEY `Index 2` (`capcl_cla_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`capcl_id`,`capcl_cla_ID`),
+  CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`capcl_cla_ID`) REFERENCES `classes` (`cla_ID`)
+--   KEY `Index 2` (`capcl_cla_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
--- Listage des données de la table dragon.capacite_classe : ~11 rows (environ)
+-- Listage des données de la table dragon.capacite_classe : ~41 rows (environ)
 /*!40000 ALTER TABLE `capacite_classe` DISABLE KEYS */;
 REPLACE INTO `capacite_classe` (`capcl_id`, `capcl_cla_ID`, `capcl_sousclasse`, `capcl_niveau`, `capcl_nom_capacite`, `capcl_description`) VALUES
 	(1, 1, NULL, 1, 'Rage', 'En combat, vous vous battez avec une férocité bestiale. Durant votre tour, vous pouvez entrer en rage en utilisant une action bonus. En rage, vous gagnez les bénéfices suivants si vous ne portez pas d\'armure lourde :\r\n\r\nVous avez un avantage aux jets de Force et aux jets de sauvegarde de Force.\r\nQuand vous effectuez une attaque au corps à corps avec une arme utilisant la Force, vous gagnez un bonus aux jets de dégâts qui dépend de votre niveau de barbare, comme indiqué dans la colonne Dégâts de la table ci-dessus.\r\nVous avez la résistance aux dégâts contondants, perforants et tranchants.\r\nSi vous êtes capable de lancer des sorts, vous ne pouvez les lancer ou vous concentrer sur eux pour toute la durée de la rage.\r\n\r\nVotre rage dure 1 minute. Elle finit prématurément si vous devenez inconscient, ou si votre tour se termine et que vous n\'avez ni attaqué une créature hostile, ni subi des dégâts, depuis votre précédent tour. Vous pouvez également mettre fin à votre rage durant votre tour par une action bonus. Vous récupérez les utilisations de rage dépensées après avoir terminé un repos long.'),
@@ -60,95 +92,19 @@ REPLACE INTO `capacite_classe` (`capcl_id`, `capcl_cla_ID`, `capcl_sousclasse`, 
 	(27, 1, NULL, 11, 'Rage implacable', 'À partir du niveau 11, votre rage vous permet de continuer à combattre en dépit des graves blessures qui vous affectent. Si vous tombez à 0 point de vie pendant votre rage et que vous ne mourrez pas sur le coup, vous pouvez faire un jet de sauvegarde de Constitution DD 10. Si vous le réussissez, vous retournez immédiatement à 1 point de vie. Chaque fois que vous utilisez cette capacité après la première, le DD augmente de 5. Quand vous terminez un repos court ou long le DD retombe à 10.'),
 	(28, 1, NULL, 15, 'Rage ininterrompue', 'En atteignant le niveau 15, votre rage est si intense qu\'elle ne s\'arrête prématurément qu\'à la condition que vous tombiez inconscient ou que vous choisissiez de l\'arrêter.'),
 	(29, 1, NULL, 18, 'Puissance indomptable', 'Au niveau 18, si le résultat d\'un de vos jets de Force est inférieur à votre valeur de Force, vous pouvez utiliser votre valeur de Force à la place de votre résultat.'),
-	(30, 1, NULL, 20, 'Champion primitif', 'Au niveau 20, vous êtes l\'incarnation de la puissance du monde sauvage. Vos valeurs de Force et de Constitution augmentent de 4. Votre maximum dans ces valeurs de caractéristique est maintenant de 24.');
+	(30, 1, NULL, 20, 'Champion primitif', 'Au niveau 20, vous êtes l\'incarnation de la puissance du monde sauvage. Vos valeurs de Force et de Constitution augmentent de 4. Votre maximum dans ces valeurs de caractéristique est maintenant de 24.'),
+	(31, 1, 1, 3, 'Voie du berserker', 'Pour bon nombre de barbares, la rage est le moyen d\'atteindre un but, ce but étant la violence. La voie du berserker est une voie de fureur débridée, poisseuse de sang. En entrant en rage de berserker, vous êtes électrisé par le chaos de la bataille, faisant fi de votre sécurité et de votre bien, être.'),
+	(32, 1, 1, 3, 'Frénésie', 'Dès que vous choisissez cette voie au niveau 3, vous pouvez choisir de sombrer dans un état de frénésie au cours de votre rage. Si vous le faites, pour la durée de votre rage, vous pouvez effectuer une unique attaque au corps à corps avec une arme en utilisant une action bonus à chacun de vos tours après celui, ci. Lorsque votre rage se termine, vous subissez un niveau d\'épuisement.'),
+	(33, 1, 1, 6, 'Rage inébranlable', 'À partir du niveau 6, vous ne pouvez pas être charmé ou effrayé tant que vous êtes en rage. Si vous êtes déjà charmé ou effrayé lorsque vous entrez en rage, l\'effet est suspendu le temps de votre rage.'),
+	(34, 1, 1, 10, 'Présence intimidante', 'À partir du niveau 10, vous pouvez utiliser votre action pour effrayer quelqu\'un avec votre présence effrayante. Pour ce faire, choisissez une créature que vous pouvez voir à 9 mètres maximum de vous. Si la créature peut vous voir ou vous entendre, elle doit réussir un jet de sauvegarde de Sagesse (1,1,,DD égal à 8 + votre bonus de maîtrise + votre modificateur de Charisme) ou vous la effrayez jusqu\'à la fin de votre prochain tour. Aux tours suivants, vous pouvez utiliser votre action pour augmenter d\'un tour supplémentaire la durée de cet effet sur la créature effrayée. Cet effet se termine si la créature finit son tour hors de votre ligne de vue ou qu\'elle se trouve à plus de 18 mètres de vous. Si la créature réussit son jet de sauvegarde, vous ne pouvez plus utiliser cette capacité contre elle durant 24 heures.'),
+	(35, 1, 1, 14, 'Représailles', 'À partir du niveau 14, lorsque vous subissez des dégâts d\'une créature située à 1,50 mètre de vous, vous pouvez utiliser votre réaction pour effectuer une attaque au corps à corps avec une arme contre cette créature.'),
+	(36, 1, 2, 3, 'Voie du guerrier totem', 'La voie du guerrier totem est un parcours spirituel, étant donné que le barbare accepte un esprit animal comme guide, protecteur et source d\'inspiration. En plein bataille, votre esprit totem vous imprègne de pouvoirs surnaturels, distillant de l\'essence magique dans votre rage. La plupart des tribus barbares utilise un animal totem comme signe d\'appartenance à un clan particulier. Dans ce cas-là, il est rare pour un individu d\'avoir plus d\'un esprit-animal totem, bien qu\'il existe des exceptions.'),
+	(37, 1, 2, 3, 'Quêteur spirituel', 'Une voie qui cherche à vous initier au monde naturel, vous affiliant aux bêtes, est faite pour vous. Au niveau 3, lorsque vous adoptez cette voie, vous obtenez la capacité de lancer les sorts communication avec les animaux et sens animal, mais seulement en tant que rituels.'),
+	(38, 1, 2, 3, 'Esprit totem', 'Au niveau 3, lorsque vous adoptez cette voie, vous choisissez un esprit totem et obtenez les avantages associés. Vous devez fabriquer ou obtenir un objet totem - une amulette ou un ornement similaire - constitué d\'os, de poils, de griffes, de plumes ou de dents de votre animal totem. Si vous le souhaitez, vous pouvez également obtenir un attribut physique mineur qui rappelle votre esprit totem. Par exemple, si vous avez choisi l\'ours comme esprit totem, vous pourriez être incroyablement poilu et avoir la peau épaisse, ou si votre totem est l\'aigle, vos yeux pourraient virer au jaune. Votre animal totem devrait être un animal correspondant à l\'un de ceux listés ci-dessous ou s\'en approchant mais dont l\'espèce est plus appropriée à votre pays d\'origine (un vautour ou un faucon à la place d\'un aigle par exemple).\r\nAigle. Lorsque vous êtes en rage et ne portez pas d\'armure lourde, les autres créatures ont un désavantage lors des attaques d\'opportunité qu\'elles effectuent contre vous, et vous pouvez utiliser l\'action Foncer en tant qu\'action bonus lors de votre tour. L\'esprit de l\'aigle fait de vous un prédateur capable de circuler dans la mêlée avec aisance.\r\nLoup. Lorsque vous êtes en rage, vos alliés ont un avantage aux jets d\'attaque au corps à corps effectués contre toute créature située à 1,50 mètre de vous et qui vous sont hostiles. L\'esprit du loup fait de vous le chef des chasseurs.\r\nOurs. Lorsque vous êtes en rage, vous avez la résistance à tous les types de dégâts sauf aux dégâts psychiques. L\'esprit de l\'ours vous rend suffisamment coriace pour résister à n\'importe quel châtiment.'),
+	(39, 1, 2, 6, 'Aspect de la bête', 'Au niveau 6, vous obtenez un bénéfice magique dépendant de l\'animal totem de votre choix. Vous pouvez choisir le même animal que celui sélectionné au niveau 3 ou en prendre un différent.\r\nAigle. Vous gagnez la vision de l\'aigle. Vous pouvez voir jusqu\'à 1,5 kilomètre sans difficulté, capable de discerner même les plus fins détails comme si vous regardiez quelque chose à 30 m de vous. De plus, une faible luminosité n\'impose pas un désavantage à vos jets de Sagesse (Perception).\r\nLoup. Vous gagnez les sens de chasseur d\'un loup. Vous pouvez pister les autres créatures lorsque vous voyagez à un rythme rapide et vous pouvez vous déplacer discrètement lorsque vous voyagez à un rythme normal (voir Partir à l\'aventure).\r\nOurs. Vous gagnez la puissance de l\'ours. Votre capacité de charge (dont votre chargement maximal et votre capacité à soulever des objets) est doublée et vous obtenez un avantage aux jets de Force effectués pour pousser, soulever, tirer ou briser des objets.'),
+	(40, 1, 2, 10, 'Marcheur spirituel', 'Au niveau 10, vous pouvez lancer le sort communion avec la nature, mais seulement en tant que rituel. Lorsque vous le lancez, une version spirituelle de l\'un des animaux que vous avez choisis avec Esprit totem ou Aspect de la bête apparaît et vous donne l\'information que vous recherchez.'),
+	(41, 1, 2, 14, 'Lien totémique', 'Au niveau 14, vous obtenez un bénéfice magique correspondant à l\'animal totem de votre choix. Vous pouvez choisir un animal que vous avez précédemment sélectionné ou en prendre un nouveau.\r\nAigle. Lorsque vous êtes en rage, vous obtenez une vitesse de vol égale à votre vitesse actuelle de déplacement à pied. Cette capacité fonctionne uniquement sur de cours déplacements ; vous tombez si vous terminez votre tour dans les airs et que rien d\'autre ne vous maintient en hauteur.\r\nLoup. Lorsque vous êtes en rage vous pouvez utiliser une action bonus lors de votre tour pour mettre à terre une créature de taille G ou inférieure que vous avez touchée lors d\'une attaque au corps à corps avec une arme.\r\nOurs. Lorsque vous êtes en rage, toute créature située à 1,50 mètre de vous, et qui vous est hostile, a un désavantage aux jets d\'attaque effectué contre une cible autre que vous, ou tout personnage avec cette capacité. Un ennemi est immunisé à cet effet s\'il ne peut pas vous voir ou vous entendre ou qu\'il ne peut pas être effrayé.');
 /*!40000 ALTER TABLE `capacite_classe` ENABLE KEYS */;
-
--- Listage de la structure de la table dragon. capacite_race
-CREATE TABLE IF NOT EXISTS `capacite_race` (
-  `cap_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `cap_rac_nom` varchar(50) NOT NULL,
-  `cap_nom_capacite` varchar(50) NOT NULL,
-  `cap_description` text NOT NULL,
-  PRIMARY KEY (`cap_ID`,`cap_rac_nom`),
-  KEY `Index 2` (`cap_rac_nom`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
-
--- Listage des données de la table dragon.capacite_race : ~27 rows (environ)
-/*!40000 ALTER TABLE `capacite_race` DISABLE KEYS */;
-REPLACE INTO `capacite_race` (`cap_ID`, `cap_rac_nom`, `cap_nom_capacite`, `cap_description`) VALUES
-	(1, 'elfe', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(2, 'elfe', 'Sens aiguisés.', 'Vous maîtrisez la compétence Perception.'),
-	(3, 'elfe', 'Ascendance féerique.', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.'),
-	(4, 'elfe', 'Transe', 'Les elfes n\'ont pas besoin de dormir. Au lieu de cela, ils méditent profondément, restant à demi conscients, 4 heures par jour (le mot commun pour désigner cette méditation est « transe »). En méditant, vous pouvez rêver, tant bien que mal ; ces rêves sont en fait des exercices mentaux qui deviennent un réflexe après des années de pratique. Après un repos de ce type, vous obtenez les mêmes avantages qu\'un humain après 8 heures de sommeil.'),
-	(5, 'halfelin', 'Chanceux.', 'Lorsque vous obtenez un 1 au dé d\'un jet d\'attaque, de caractéristique ou de sauvegarde, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.'),
-	(6, 'halfelin', 'Vaillant.', 'Vous avez un avantage aux jets de sauvegarde pour ne pas être effrayé.'),
-	(7, 'halfelin', 'Agilité halfeline.', 'Vous pouvez passer dans l\'espace de toute créature d\'une taille supérieure à la vôtre.'),
-	(8, 'nain', 'Résistance naine.', ' Vous avez un avantage aux jets de sauvegarde contre le poison et obtenez la résistance contre les dégâts de poison.'),
-	(9, 'nain', 'Entraînement aux armes naines.', 'Vous obtenez la maîtrise des hachettes, des haches d\'armes, des marteaux légers et des marteaux de guerre.'),
-	(10, 'nain', 'Maîtrise des outils.', 'Vous obtenez la maîtrise d\'un des outils d\'artisan suivant au choix : outils de forgeron, outils de brasseur ou outils de maçon.'),
-	(11, 'nain', 'Connaissance de la pierre.', 'Chaque fois que vous effectuez un jet d\'Intelligence (Histoire) en relation avec l\'origine d\'un travail lié à la pierre, considérez que vous maîtrisez la compétence Histoire et ajoutez le double de votre bonus de maîtrise au jet, au lieu du bonus de maîtrise normal.'),
-	(12, 'demi-elfe', 'Polyvalence.', 'Vous gagnez la maîtrise de deux compétences de votre choix.'),
-	(13, 'demi-orque', 'Menaçant', 'Vous gagnez la maîtrise de la compétence Intimidation.'),
-	(14, 'demi-orque', 'Endurance implacable. ', 'Lorsque vous tombez à 0 point de vie, mais que vous n\'êtes pas tué sur le coup, vous pouvez passer à 1 point de vie à la place. Vous devez terminer un repos long avant de pouvoir utiliser cette capacité de nouveau.'),
-	(15, 'demi-orque', 'Attaques sauvages.', 'Lorsque vous réalisez un coup critique lors d\'une attaque au corps à corps avec une arme, vous pouvez jeter l\'un des dés de dégâts de l\'arme une deuxième fois et l\'ajouter aux dégâts supplémentaires du coup critique.'),
-	(16, 'drakeide', 'Ascendance draconique.', ' Vous avez une ascendance draconique. Choisissez un type de dragon, votre souffle et votre résistance aux dégâts sont déterminés par le type de dragon'),
-	(17, 'drakeide', 'Souffle.', 'Vous pouvez utiliser votre action pour expirer une énergie destructrice. Votre ascendance draconique détermine la taille, la forme et le type de dégâts de votre souffle. Lorsque vous utilisez votre souffle, toute créature dans la zone de l\'expiration doit faire un jet de sauvegarde, dont le type est déterminé par votre ascendance draconique. Le DD de ce jet de sauvegarde est égal à 8 + votre modificateur de Constitution + votre bonus de maîtrise. En cas d\'échec, la créature subit 2d6 dégâts, et la moitié en cas de réussite. Les dégâts augmentent à 3d6 au niveau 6, 4d6 au niveau 11, et 5d6 au niveau 16. Après avoir utilisé votre souffle, vous devez terminer un repos court ou long pour pouvoir l\'utiliser à nouveau.'),
-	(18, 'drakeide', 'Résistance aux dégâts.', 'Vous obtenez la résistance au type de dégâts associé à votre ascendance draconique.'),
-	(19, 'gnome', 'Ruse gnome.', 'Vous avez un avantage aux jets de sauvegarde d\'Intelligence, de Sagesse et de Charisme contre la magie.'),
-	(20, 'tieffelin', 'Résistance infernale.', 'Vous avez la résistance aux dégâts de feu.'),
-	(21, 'tieffelin', 'Ascendance infernale.', ' Vous connaissez le sort mineur thaumaturgie. Quand vous atteignez le niveau 3, vous pouvez lancer le sort représailles infernales comme un sort de niveau 2 une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Quand vous atteignez le niveau 5, vous pouvez lancer le sort ténèbres une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Le Charisme est votre caractéristique d\'incantation pour ces sorts.'),
-	(22, 'nain\r\n', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(24, 'demi-elfe', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(25, 'demi-orque', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(26, 'gnome', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(27, 'tieffelin', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
-	(28, 'demi-elfe', 'Ascendance féerique', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.');
-/*!40000 ALTER TABLE `capacite_race` ENABLE KEYS */;
-
--- Listage de la structure de la table dragon. classes
-CREATE TABLE IF NOT EXISTS `classes` (
-  `cla_ID` int(11) NOT NULL,
-  `cla_nom` varchar(30) NOT NULL,
-  `cla_DV` int(11) NOT NULL,
-  `cla_competences` text NOT NULL,
-  `cla_save` text NOT NULL,
-  `cla_outil` text NOT NULL,
-  `cla_armure` text NOT NULL,
-  `cla_arme` text NOT NULL,
-  PRIMARY KEY (`cla_ID`),
-  CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`cla_ID`) REFERENCES `capacite_classe` (`capcl_cla_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Listage des données de la table dragon.classes : ~12 rows (environ)
-/*!40000 ALTER TABLE `classes` DISABLE KEYS */;
-REPLACE INTO `classes` (`cla_ID`, `cla_nom`, `cla_DV`, `cla_competences`, `cla_save`, `cla_outil`, `cla_armure`, `cla_arme`) VALUES
-	(1, 'barbare', 12, 'choisissez deux competences parmi Athletisme, Dressage, Intimidation, Nature, Perception et Survie', 'force,constitution', 'aucun', 'armures legeres, armures intermediaires, boucliers', 'armes courantes, armes de guerre'),
-	(2, 'barde', 8, 'choisissez trois competences de votre choix', 'dexterite, charisme', 'trois instruments de musique de votre choix', 'armures légères', 'armes courantes, arbalète de poing, épée longue, épée courte, rapière'),
-	(3, 'clerc', 8, 'choisissez deux competences parmi Histoire, Médecine, Perspicacite, Persuasion et Religion', 'sagesse, charisme', 'aucun', 'armures légères et intermédiaires, boucliers', 'armes courantes'),
-	(4, 'druide', 8, 'choisissez deux competences parmi Arcanes, Dressage, Médecine, Nature, Perception, Perspicacite, Religion et Survie', 'intelligence,sagesse', 'kit d\'herboriste', 'armures légères et intermédiaires, boucliers (un druide n\'utilisera pas d\'armure ou de bouclier en métal)', 'gourdin, dague, fléchette, javeline, masse d\'armes, bâton, cimeterre, fronde, serpe, lance'),
-	(5, 'ensorceleur', 6, 'choisissez deux competences parmi Arcanes, Intimidation, Perspicacite, Persuasion, Religion et Tromperie', 'constitution,charisme', 'aucun', 'aucune', 'dague, fléchette, fronde, bâton, arbalète légère'),
-	(6, 'guerrier', 10, 'choisissez deux competences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Perception, Perspicacite et Survie', 'force,constitution', 'aucun', 'toutes les armures, boucliers', 'armes courantes, armes de guerre'),
-	(7, 'magicien', 6, 'choisissez deux competences parmi Arcanes, Histoire, Investigation, Médecine, Perspicacite et Religion', 'intelligence,sagesse', 'aucun', 'aucune', 'dague, fléchettes, fronde, bâton, arbalète légère'),
-	(8, 'moine', 8, 'choisissez deux competences parmi Acrobaties, Athletisme, Discretion, Histoire, Perspicacite et Religion', 'force,dextérité', 'un outil d\'artisan ou un instrument de musique de votre choix', 'aucune', 'armes courantes, épée courte'),
-	(9, 'paladin', 10, 'choisissez deux competences parmi Athletisme, Intimidation, Medecine, Perspicacite, Persuasion et Religion', 'sagesse,charisme', 'aucun', 'toutes les armures, boucliers', 'armes courantes, armes de guerre'),
-	(10, 'rodeur', 10, 'choisissez trois competences parmi Athletisme, Discretion, Dressage, Investigation, Nature, Perception, Perspicacite et Survie', 'force,dexterite', 'aucun', 'armures légères et intermédiaires, boucliers', 'armes courantes, armes de guerre'),
-	(11, 'roublard', 8, 'choisissez quatre competences parmi Acrobaties, Athletisme, Discretion, Escamotage, Intimidation, Investigation, Perception, Perspicacite, Persuasion, Representation et Tromperie', 'dexterite,intelligence', 'outils de voleur', 'armures légères', 'armes courantes, arbalète de poing, épée courte, épée longue, rapière'),
-	(12, 'sorcier', 8, 'choisissez deux competences parmi Arcanes, Histoire, Intimidation, Investigation, Nature, Religion et Tromperie', 'sagesse,charisme', 'aucun', 'armures légères', 'armes courantes');
-/*!40000 ALTER TABLE `classes` ENABLE KEYS */;
-
--- Listage de la structure de la table dragon. historique
-CREATE TABLE IF NOT EXISTS `historique` (
-  `his_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `his_nom` varchar(30) DEFAULT NULL,
-  `his_capacite` varchar(30) DEFAULT NULL,
-  `his_equipement` varchar(30) DEFAULT NULL,
-  `his_competences` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`his_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Listage des données de la table dragon.historique : ~0 rows (environ)
-/*!40000 ALTER TABLE `historique` DISABLE KEYS */;
-/*!40000 ALTER TABLE `historique` ENABLE KEYS */;
 
 -- Listage de la structure de la table dragon. race
 CREATE TABLE IF NOT EXISTS `race` (
@@ -157,9 +113,7 @@ CREATE TABLE IF NOT EXISTS `race` (
   `rac_vitesse` decimal(10,1) NOT NULL DEFAULT '0.0',
   `rac_langue` varchar(50) NOT NULL,
   `rac_carac` varchar(30) NOT NULL,
-  PRIMARY KEY (`rac_ID`),
-  KEY `FK_race_capacite_race` (`rac_nom`),
-  CONSTRAINT `FK_race_capacite_race` FOREIGN KEY (`rac_nom`) REFERENCES `capacite_race` (`cap_rac_nom`)
+  PRIMARY KEY (`rac_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table dragon.race : ~9 rows (environ)
@@ -175,6 +129,64 @@ REPLACE INTO `race` (`rac_ID`, `rac_nom`, `rac_vitesse`, `rac_langue`, `rac_cara
 	(8, 'gnome', 7.5, 'gnome, commun', '0/0/1/2/0/0'),
 	(9, 'tieffelin', 9.0, 'infernal, commun', '0/0/0/1/0/2');
 /*!40000 ALTER TABLE `race` ENABLE KEYS */;
+
+-- Listage de la structure de la table dragon. capacite_race
+CREATE TABLE IF NOT EXISTS `capacite_race` (
+  `cap_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `cap_rac_ID` int(11) NOT NULL,
+  `cap_nom_capacite` varchar(50) NOT NULL,
+  `cap_description` text NOT NULL,
+  PRIMARY KEY (`cap_ID`),
+	CONSTRAINT `FK_capacite_race_race` FOREIGN KEY (`cap_rac_ID`) REFERENCES `race` (`rac_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+
+-- Listage des données de la table dragon.capacite_race : ~27 rows (environ)
+/*!40000 ALTER TABLE `capacite_race` DISABLE KEYS */;
+REPLACE INTO `capacite_race` (`cap_ID`, `cap_rac_ID`, `cap_nom_capacite`, `cap_description`) VALUES
+	(1, '1', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(2, '1', 'Sens aiguisés.', 'Vous maîtrisez la compétence Perception.'),
+	(3, '1', 'Ascendance féerique.', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.'),
+	(4, '1', 'Transe', 'Les elfes n\'ont pas besoin de dormir. Au lieu de cela, ils méditent profondément, restant à demi conscients, 4 heures par jour (le mot commun pour désigner cette méditation est « transe »). En méditant, vous pouvez rêver, tant bien que mal ; ces rêves sont en fait des exercices mentaux qui deviennent un réflexe après des années de pratique. Après un repos de ce type, vous obtenez les mêmes avantages qu\'un humain après 8 heures de sommeil.'),
+	(5, '2', 'Chanceux.', 'Lorsque vous obtenez un 1 au dé d\'un jet d\'attaque, de caractéristique ou de sauvegarde, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.'),
+	(6, '2', 'Vaillant.', 'Vous avez un avantage aux jets de sauvegarde pour ne pas être effrayé.'),
+	(7, '2', 'Agilité halfeline.', 'Vous pouvez passer dans l\'espace de toute créature d\'une taille supérieure à la vôtre.'),
+	(8, '4', 'Résistance naine.', ' Vous avez un avantage aux jets de sauvegarde contre le poison et obtenez la résistance contre les dégâts de poison.'),
+	(9, '4', 'Entraînement aux armes naines.', 'Vous obtenez la maîtrise des hachettes, des haches d\'armes, des marteaux légers et des marteaux de guerre.'),
+	(10, '4', 'Maîtrise des outils.', 'Vous obtenez la maîtrise d\'un des outils d\'artisan suivant au choix : outils de forgeron, outils de brasseur ou outils de maçon.'),
+	(11, '4', 'Connaissance de la pierre.', 'Chaque fois que vous effectuez un jet d\'Intelligence (Histoire) en relation avec l\'origine d\'un travail lié à la pierre, considérez que vous maîtrisez la compétence Histoire et ajoutez le double de votre bonus de maîtrise au jet, au lieu du bonus de maîtrise normal.'),
+	(12, '5', 'Polyvalence.', 'Vous gagnez la maîtrise de deux compétences de votre choix.'),
+	(13, '6', 'Menaçant', 'Vous gagnez la maîtrise de la compétence Intimidation.'),
+	(14, '6', 'Endurance implacable. ', 'Lorsque vous tombez à 0 point de vie, mais que vous n\'êtes pas tué sur le coup, vous pouvez passer à 1 point de vie à la place. Vous devez terminer un repos long avant de pouvoir utiliser cette capacité de nouveau.'),
+	(15, '6', 'Attaques sauvages.', 'Lorsque vous réalisez un coup critique lors d\'une attaque au corps à corps avec une arme, vous pouvez jeter l\'un des dés de dégâts de l\'arme une deuxième fois et l\'ajouter aux dégâts supplémentaires du coup critique.'),
+	(16, '7', 'Ascendance draconique.', ' Vous avez une ascendance draconique. Choisissez un type de dragon, votre souffle et votre résistance aux dégâts sont déterminés par le type de dragon'),
+	(17, '7', 'Souffle.', 'Vous pouvez utiliser votre action pour expirer une énergie destructrice. Votre ascendance draconique détermine la taille, la forme et le type de dégâts de votre souffle. Lorsque vous utilisez votre souffle, toute créature dans la zone de l\'expiration doit faire un jet de sauvegarde, dont le type est déterminé par votre ascendance draconique. Le DD de ce jet de sauvegarde est égal à 8 + votre modificateur de Constitution + votre bonus de maîtrise. En cas d\'échec, la créature subit 2d6 dégâts, et la moitié en cas de réussite. Les dégâts augmentent à 3d6 au niveau 6, 4d6 au niveau 11, et 5d6 au niveau 16. Après avoir utilisé votre souffle, vous devez terminer un repos court ou long pour pouvoir l\'utiliser à nouveau.'),
+	(18, '7', 'Résistance aux dégâts.', 'Vous obtenez la résistance au type de dégâts associé à votre ascendance draconique.'),
+	(19, '8', 'Ruse gnome.', 'Vous avez un avantage aux jets de sauvegarde d\'Intelligence, de Sagesse et de Charisme contre la magie.'),
+	(20, '9', 'Résistance infernale.', 'Vous avez la résistance aux dégâts de feu.'),
+	(21, '9', 'Ascendance infernale.', ' Vous connaissez le sort mineur thaumaturgie. Quand vous atteignez le niveau 3, vous pouvez lancer le sort représailles infernales comme un sort de niveau 2 une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Quand vous atteignez le niveau 5, vous pouvez lancer le sort ténèbres une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Le Charisme est votre caractéristique d\'incantation pour ces sorts.'),
+	(22, '4', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(24, '5', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(25, '6', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(26, '8', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(27, '9', 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.'),
+	(28, '5', 'Ascendance féerique', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.');
+/*!40000 ALTER TABLE `capacite_race` ENABLE KEYS */;
+
+
+
+-- Listage de la structure de la table dragon. historique
+CREATE TABLE IF NOT EXISTS `historique` (
+  `his_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `his_nom` varchar(30) DEFAULT NULL,
+  `his_capacite` varchar(30) DEFAULT NULL,
+  `his_equipement` varchar(30) DEFAULT NULL,
+  `his_competences` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`his_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Listage des données de la table dragon.historique : ~0 rows (environ)
+/*!40000 ALTER TABLE `historique` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historique` ENABLE KEYS */;
 
 -- Listage de la structure de la table dragon. ss_classe
 CREATE TABLE IF NOT EXISTS `ss_classe` (
