@@ -7,7 +7,7 @@ include("header.php");
             <div class="col-sm-12 ">
                 <img class="img-fluid d-none d-md-block col-md-4 float-right" src="src/img/logo.jpg" alt="logo">
                 <h4> Lorem ipsum dolor sit amet. </h4>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed, vitae at facilis facere assumenda
+                <p>Lorem, ipsum dolor éèà sit amet consectetur adipisicing elit. Sed, vitae at facilis facere assumenda
                     nulla sunt perspiciatis tempora quibusdam veritatis officia laudantium, placeat quod, reprehenderit
                     dolor harum voluptas eveniet ea.</p>
                     <h4>Lorem ipsum dolor sit amet.</h4>

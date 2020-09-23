@@ -51,19 +51,16 @@ $db=connexionbdd();
                         </a>
                         <div class="dropdown-menu bg-dark navbar-light">
                             <?php
-                                $requeteClasse="select cla_nom from classes";
+                                $requeteClasse="select cla_nom, cla_ID from classes";
                                 $resultClasse=$db->query($requeteClasse);
                                 while($produitClasse=$resultClasse->fetch(PDO::FETCH_OBJ))
                                 {
-                                  echo  "<a class=\"dropdown-item nav-link\" href=".$produitClasse->cla_nom.".php>".$produitClasse->cla_nom."</a>";
+                                  echo  "<a class=\"dropdown-item nav-link\" href=classe.php?IDpage=".$produitClasse->cla_ID.">".$produitClasse->cla_nom."</a>";
                                 }
 
 
                             ?>
-                            <a class="dropdown-item nav-link" href="clerc.php">Clerc</a>
-                            <a class="dropdown-item nav-link" href="#">Guerrier</a>
-                            <a class="dropdown-item nav-link" href="#">Magicien</a>
-                            <a class="dropdown-item nav-link" href="#">Roublard</a>
+
                         </div>
                     </div>
                     <a href="sheet.php" class="nav-item nav-link">Créateur de personnage</a>

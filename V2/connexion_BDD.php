@@ -4,7 +4,7 @@
        
    try 
    {        
-       $db = new PDO('mysql:host=localhost;charset=latin1;dbname=dragon', 'root', '');
+       $db = new PDO('mysql:host=localhost;charset=utf8;dbname=dragon', 'root', '');
        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
        return $db;
    } catch (Exception $e) {
