@@ -34,6 +34,7 @@ $db=connexionbdd();
                         </a>
                         <div class="dropdown-menu bg-dark ">
                             <?php
+                            // rempli le menu race depuis la bdd
                             $requeteRace="select rac_nom, rac_ID from race";
                             $resultRace=$db->query($requeteRace);
                             while ($produitRace=$resultRace->fetch(PDO::FETCH_OBJ))
@@ -42,6 +43,7 @@ $db=connexionbdd();
                             }
                             $resultRace->closeCursor();
                             ?>
+                            <!-- ------------------------ -->
                         </div>
                     </div>
                     <div class="dropdown">
@@ -51,16 +53,18 @@ $db=connexionbdd();
                         </a>
                         <div class="dropdown-menu bg-dark navbar-light">
                             <?php
+                            // rempli le menu classe depuis la bdd
                                 $requeteClasse="select cla_nom, cla_ID from classes";
                                 $resultClasse=$db->query($requeteClasse);
                                 while($produitClasse=$resultClasse->fetch(PDO::FETCH_OBJ))
                                 {
                                   echo  "<a class=\"dropdown-item nav-link\" href=classe.php?IDpage=".$produitClasse->cla_ID.">".$produitClasse->cla_nom."</a>";
                                 }
+                                $resultClasse->closeCursor();
 
 
                             ?>
-
+                            <!-- ------------------------ -->
                         </div>
                     </div>
                     <a href="sheet.php" class="nav-item nav-link">Créateur de personnage</a>

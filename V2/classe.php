@@ -209,7 +209,9 @@ $contenu2=$result2->fetch(PDO::FETCH_OBJ);
                                 <td>".$contenu2->evo_sort3."</td>
                                 <td>".$contenu2->evo_sort4."</td>
                                 <td>".$contenu2->evo_sort5."</td>";}
-                       echo "</tr>";}?>
+                       echo "</tr>";}
+                       $result2->closeCursor();
+                       ?>
                       
                     </tbody>
                 </table>

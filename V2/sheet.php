@@ -1,5 +1,12 @@
 <?php
 include("header.php");
+echo "<script> ValeurRace=[];VitesseRace=[]; NomRace=[]; ImageRace=[];
+NomClasse=[];
+DvClasse=[];
+CompClasse=[];
+TabSaveClasse=[];
+NomSSclasse=[];
+</script>";
 ?>
     <!-- contenu de page -->
     <div class="container shadow bg-white ">
@@ -15,23 +22,71 @@ include("header.php");
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="race">Race </label>
-                        <select name="race" id="race" class="form-control">
+                        <select name="race" id="formrace" class="form-control">
                             <option value="">Choisissez</option>
-                            <option value="elfe">Elfe</option>
-                            <option value="halfelin">Halfelin</option>
-                            <option value="humain">Humain</option>
-                            <option value="nain">Nains</option>
+                            <!-- crée les option pour la case race  -->
+                            <?php 
+                            $requetechoix1="select * from race";
+                            $resultchoix1=$db->query($requetechoix1);
+                            while ($produitchoix1=$resultchoix1->fetch(PDO::FETCH_OBJ))
+                            {
+                                // rempli les option pour le formulaire select race 
+                                // enregistre les donnée necessaire dans des variables js depuis la bdd
+                                echo  "<option value=\"race".$produitchoix1->rac_ID."\">".$produitchoix1->rac_nom."</option>
+                                <script>
+                               NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
+                               ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
+                               VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";";
+                            //    recupere le nom de l'image dans la bdd
+                               $requeteimage="select * from article_race where artr_rac_ID=$produitchoix1->rac_ID";
+                               $resultimage=$db->query($requeteimage);
+                               $produitimage=$resultimage->fetch(PDO::FETCH_OBJ);
+                                echo " ImageRace[".$produitchoix1->rac_ID."]=\"$produitimage->artr_image\";
+                               </script>";
+                            }
+                            $resultchoix1->closeCursor();
+                            ?>
+                            <!-- ---------------------------------- -->
                         </select>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="classe">Classe</label>
-                        <select name="classe" id="classe" class="form-control">
+                        <select name="classe" id="formclasse" class="form-control">
                             <option value="">choisissez</option>
-                            <option value="clerc">Clerc</option>
-                            <option value="guerrier">Guerrier</option>
-                            <option value="magicien">Magicien</option>
-                            <option value="roublard">Roublard</option>
+                            <!-- crée les options pour la case classes  -->
+                            <?php 
+                            $requetechoix2="select * from classes";
+                            $resultchoix2=$db->query($requetechoix2);
+                            while ($produitchoix2=$resultchoix2->fetch(PDO::FETCH_OBJ))
+                            {
+                                // rempli les option pour le formulaire select classe
+                                // enregistre les donnée necessaire dans des variables js depuis la bdd
+
+                                $boucleSSclasse=0;
+                                echo  "<option value=\"classe".$produitchoix2->cla_ID."\">".$produitchoix2->cla_nom."</option>
+                                <script>
+                                var NomSSclasse".$produitchoix2->cla_ID."=[];
+                                NomClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_nom\";
+                                DvClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_DV\";
+                                CompClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_competences\";    
+                                TabSaveClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_savetab\";";
+                                $requeteSSclasse="select * from ss_classe where sscl_cla_ID=$produitchoix2->cla_ID";
+                                $resultSSclasse=$db->query($requeteSSclasse);
+                                while ($produitSSclasse=$resultSSclasse->fetch(PDO::FETCH_OBJ)){
+                                    $boucleSSclasse++;
+                                echo "
+                                NomSSclasse".$produitchoix2->cla_ID."[$boucleSSclasse]=\"$produitSSclasse->sscl_nom\";";
+                            }
+                                echo"
+                                </script>";
+                            }
+                            $resultchoix2->closeCursor();
+                            ?>
+                            <!-- --------------------------------- -->
                         </select>
+                        <label for="ssclasse">Sous-classe</label>
+                        <select name="ssclasse" id="formssclasse">
+                        <option value="">choisissez</option> 
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="historique">Historique</label>

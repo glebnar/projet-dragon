@@ -1,6 +1,7 @@
 // récupére les champs de du formulaire
-var Vrace = document.getElementById("race");
-var Vclasse = document.getElementById("classe");
+var Vrace = document.getElementById("formrace");
+var Vclasse = document.getElementById("formclasse");
+var Vssclasse=document.getElementById("formssclasse");
 var Vhisto = document.getElementById("historique");
 var Armure = document.getElementById("CA");
 var init = document.getElementById("initiative");
@@ -19,13 +20,12 @@ var BasCar = [];
 var TotCar = [];
 var BonClasse = [];
 var DeVie = 0;
-// emplacement élément en haut de tableau
-var Vrace = document.getElementById("race");
+var maitrise=2;
+// écoute élément en haut de tableau
 Vrace.addEventListener("click", Frace);
-var Vclasse = document.getElementById("classe");
 Vclasse.addEventListener("click", Fclasse);
-var Vhisto = document.getElementById("historique");
 Vhisto.addEventListener("click", Fhisto);
+
 
 // emplacement de l'image
 var IMG = document.getElementById("imgclasse");
@@ -137,139 +137,90 @@ function CalCarac() {
 
 // choix de la race 
 function Frace() {
-    switch (Vrace.value) {
-        case "elfe":
-            for (i = 1; i <= 6; i++) {
+    for (i = 1; i <= 6; i++) {
                 BonCar[i] = 0;
             }
-            BonCar[2] = 2;
-            BonCar[4] = 1;
-            IMG.src = "src/img/scout.jpg"
-            Vit.value = "9m";
-            DesCapa.innerHTML = "";
+            if (Vrace.value==""){
+                for (i = 1; i <= 6; i++) {
+                    BonCar[i] = 0;
+                }
+                IMG.src = "src/img/gold-dragon.jpg"
+                DesCapa.innerHTML = "";
 
-            var NomCapa1 = document.createElement("b");
-            NomCapa1.textContent = "Nom capacité e";
-            DesCapa.append(NomCapa1);
-            var Capa1 = document.createElement("p");
-            Capa1.textContent = " bla bla bla";
-            DesCapa.append(Capa1);
-
-            break;
-        case "halfelin":
-            for (i = 1; i <= 6; i++) {
-                BonCar[i] = 0;
             }
-            BonCar[2] = 2;
-            BonCar[3] = 1;
-            IMG.src = "src/img/halfelin.jpg"
-            Vit.value = "7,5m";
-            DesCapa.innerHTML = "";
-
-            var NomCapa1 = document.createElement("b");
-            NomCapa1.textContent = "Nom capacité ha";
-            DesCapa.append(NomCapa1);
-            var Capa1 = document.createElement("p");
-            Capa1.textContent = " bla bla bla";
-            DesCapa.append(Capa1);
-
-            break;
-        case "humain":
-            for (i = 1; i <= 6; i++) {
-                BonCar[i] = 1;
-            }
-            IMG.src = "src/img/humain.jpg"
-            Vit.value = "9m";
-            DesCapa.innerHTML = "";
-
-            var NomCapa1 = document.createElement("b");
-            NomCapa1.textContent = "Nom capacité hu";
-            DesCapa.append(NomCapa1);
-            var Capa1 = document.createElement("p");
-            Capa1.textContent = " bla bla bla";
-            DesCapa.append(Capa1);
-            break;
-        case "nain":
-            for (i = 1; i <= 6; i++) {
-                BonCar[i] = 0;
-            }
-            BonCar[1] = 1;
-            BonCar[3] = 2;
-            IMG.src = "src/img/nain.png"
-            Vit.value = "7,5m";
-            DesCapa.innerHTML = "";
-
-            var NomCapa1 = document.createElement("b");
-            NomCapa1.textContent = "Nom capacité n";
-            DesCapa.append(NomCapa1);
-            var Capa1 = document.createElement("p");
-            Capa1.textContent = " bla bla bla";
-            DesCapa.append(Capa1);
-            break;
-        case "":
-            for (i = 1; i <= 6; i++) {
-                BonCar[i] = 0;
-            }
-            IMG.src = "src/img/gold-dragon.jpg"
-            DesCapa.innerHTML = "";
-
-
-
-    }
+// recupere le rang (la place dans la liste) de la race choisie
+RangRace=Vrace.value.replace("race","");
+// découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
+TabValeurRace=ValeurRace[RangRace].split("/");
+// enregistre les caractéristiques 
+for (i=0;i<6;i++){
+    BonCar[i+1]=TabValeurRace[i];
+}
+// donne la vitesse du personnage
+Vit.value=VitesseRace[RangRace];
+IMG.src=ImageRace[RangRace];
+console.log(ImageRace[RangRace]);
     CalCarac();
     FCheckComp();
 }
 
 // choix classe
 function Fclasse() {
-    switch (Vclasse.value) {
-        case "clerc":
-            for (i = 1; i <= 6; i++) {
-                BonClasse[i] = 0;
-            }
-            BonClasse[5] = 2;
-            BonClasse[6] = 2;
-            DeVie = 8;
-            MsgComp.innerHTML = "choisissez deux compétences parmi Histoire, Médecine, Perspicacité, Persuasion et Religion"
-            break;
-        case "guerrier":
-            for (i = 1; i <= 6; i++) {
-                BonClasse[i] = 0;
-            }
-            BonClasse[1] = 2;
-            BonClasse[3] = 2;
-            DeVie = 10;
-            MsgComp.innerHTML = "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Perception, Perspicacité et Survie"
+    RangClasse=Vclasse.value.replace("classe","");
+var TestSSclasse='NomSSclasse'+RangClasse;
+for (i=1;i<eval(TestSSclasse).length;i++){
+    ;
+}
 
-            break;
-        case "magicien":
-            for (i = 1; i <= 6; i++) {
-                BonClasse[i] = 0;
-            }
-            BonClasse[4] = 2;
-            BonClasse[5] = 2;
-            DeVie = 6;
-            MsgComp.innerHTML = "choisissez deux compétences parmi Arcanes, Histoire, Investigation, Médecine, Perspicacité et Religion"
 
-            break;
-        case "roublard":
-            for (i = 1; i <= 6; i++) {
-                BonClasse[i] = 0;
-            }
-            BonClasse[2] = 2;
-            BonClasse[4] = 2;
-            DeVie = 8;
-            MsgComp.innerHTML = "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Investigation, Perception, Perspicacité, Persuasion, Représentation et Tromperie"
+    // switch (Vclasse.value) {
+    //     case "clerc":
+    //         for (i = 1; i <= 6; i++) {
+    //             BonClasse[i] = 0;
+    //         }
+    //         BonClasse[5] = 2;
+    //         BonClasse[6] = 2;
+    //         DeVie = 8;
+    //         MsgComp.innerHTML = "choisissez deux compétences parmi Histoire, Médecine, Perspicacité, Persuasion et Religion"
+    //         break;
+    //     case "guerrier":
+    //         for (i = 1; i <= 6; i++) {
+    //             BonClasse[i] = 0;
+    //         }
+    //         BonClasse[1] = 2;
+    //         BonClasse[3] = 2;
+    //         DeVie = 10;
+    //         MsgComp.innerHTML = "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Perception, Perspicacité et Survie"
 
-            break;
-        case "":
-            for (i = 1; i <= 6; i++) {
-                BonClasse[i] = 0;
-                MsgComp.innerHTML = "";
-            }
-            break;
+    //         break;
+    //     case "magicien":
+    //         for (i = 1; i <= 6; i++) {
+    //             BonClasse[i] = 0;
+    //         }
+    //         BonClasse[4] = 2;
+    //         BonClasse[5] = 2;
+    //         DeVie = 6;
+    //         MsgComp.innerHTML = "choisissez deux compétences parmi Arcanes, Histoire, Investigation, Médecine, Perspicacité et Religion"
 
-    }
+    //         break;
+    //     case "roublard":
+    //         for (i = 1; i <= 6; i++) {
+    //             BonClasse[i] = 0;
+    //         }
+    //         BonClasse[2] = 2;
+    //         BonClasse[4] = 2;
+    //         DeVie = 8;
+    //         MsgComp.innerHTML = "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Investigation, Perception, Perspicacité, Persuasion, Représentation et Tromperie"
+
+    //         break;
+    //     case "":
+    //         for (i = 1; i <= 6; i++) {
+    //             BonClasse[i] = 0;
+    //             MsgComp.innerHTML = "";
+    //         }
+    //         break;
+
+    // }
     CalCarac();
     FCheckComp();
 }

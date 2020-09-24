@@ -19,6 +19,7 @@ $contArt=$resultArt->fetch(PDO::FETCH_OBJ);
                 echo "<h5>".$contArt->artr_titre."</h5>";
                 echo "<p>".$contArt->artr_contenu."</p>";
                 }
+                $resultArt->closeCursor();
                 ?>
             </div>
         </div>
