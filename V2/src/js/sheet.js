@@ -1,7 +1,8 @@
+
 // récupére les champs de du formulaire
 var Vrace = document.getElementById("formrace");
 var Vclasse = document.getElementById("formclasse");
-var Vssclasse=document.getElementById("formssclasse");
+var Vssclasse = document.getElementById("formssclasse");
 var Vhisto = document.getElementById("historique");
 var Armure = document.getElementById("CA");
 var init = document.getElementById("initiative");
@@ -10,6 +11,11 @@ var PV = document.getElementById("pv");
 var DV = document.getElementById("dv");
 var MsgComp = document.getElementById("msgcomp");
 var DesCapa = document.getElementById("desccapa");
+var labelssclasse = document.getElementById("labelclasse");
+var BgFeuille = document.getElementById("bgfeuille");
+var Opacite = document.getElementById("opacite");
+var DivCapacite=document.getElementById("capacite");
+
 // -------
 
 var CheckComp = [];
@@ -20,7 +26,7 @@ var BasCar = [];
 var TotCar = [];
 var BonClasse = [];
 var DeVie = 0;
-var maitrise=2;
+var maitrise = 2;
 // écoute élément en haut de tableau
 Vrace.addEventListener("click", Frace);
 Vclasse.addEventListener("click", Fclasse);
@@ -138,39 +144,126 @@ function CalCarac() {
 // choix de la race 
 function Frace() {
     for (i = 1; i <= 6; i++) {
-                BonCar[i] = 0;
-            }
-            if (Vrace.value==""){
-                for (i = 1; i <= 6; i++) {
-                    BonCar[i] = 0;
-                }
-                IMG.src = "src/img/gold-dragon.jpg"
-                DesCapa.innerHTML = "";
+        BonCar[i] = 0;
+    }
+    DivCapacite.innerHTML="";
+    if (Vrace.value == "") {
+        for (i = 1; i <= 6; i++) {
+            BonCar[i] = 0;
+        }
+        IMG.src = "src/img/gold-dragon.jpg"
+        DesCapa.innerHTML = "";
+    }
 
-            }
-// recupere le rang (la place dans la liste) de la race choisie
-RangRace=Vrace.value.replace("race","");
-// découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
-TabValeurRace=ValeurRace[RangRace].split("/");
-// enregistre les caractéristiques 
-for (i=0;i<6;i++){
-    BonCar[i+1]=TabValeurRace[i];
+    // recupere le rang (la place dans la liste) de la race choisie
+    RangRace = Vrace.value.replace("race", "");
+    // découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
+    TabValeurRace = ValeurRace[RangRace].split("/");
+var NomCR="NomCapaRace"+RangRace;
+var DescCR="DescCapaRace"+RangRace;
+
+// affichage des capacités raciales
+for (i=1;i<eval(NomCR).length;i++){
+    // creation de l'effet'dropdown
+    // DpContent=document.createElement("div");
+    // DpContent.setAttribute("class","dropright ");
+    // DpContent.setAttribute("id","DpDiv"+i)
+
+    // DpCapa=document.createElement("div");
+    // DpCapa.setAttribute("class","dropdown-menu")
+    // DpCapa.setAttribute("id","dropdown-capa"+i)
+// ----------
+// création des éléments titre et contenu 
+    // TitreCR=document.createElement("a");
+    // TitreCR.setAttribute("href","");
+    // TitreCR.setAttribute("class"," font-weight-bold text-reset ");
+    // TitreCR.setAttribute("data-toggle","dropdown");
+    // TitreCR.textContent="-"+eval(NomCR)[i];
+    // ContenuCR=document.createElement("p");
+    // ContenuCR.setAttribute("class","dropdown-item-text")
+    // ContenuCR.textContent=eval(DescCR)[i];
+// --------------------
+    // DivCapacite.append(DpContent);
+    // GetDpContent=document.getElementById("DpDiv"+i)
+    // GetDpContent.append(TitreCR);
+    // GetDpContent.append(DpCapa);
+    // ContenuDpCapa=document.getElementById("dropdown-capa"+i)
+    // ContenuDpCapa.append(ContenuCR);
+    // console.log(eval(DescCR)[i]);
+    TitreCR=document.createElement("button");
+    TitreCR.setAttribute("type","button");
+
+    TitreCR.setAttribute("class"," font-weight-bold text-reset btn btn-link  text-left d-block");
+    TitreCR.setAttribute("data-toggle","popover");
+    TitreCR.setAttribute("data-content",eval(DescCR)[i]);
+    TitreCR.textContent=eval(NomCR)[i];
+    DivCapacite.append(TitreCR);
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+
 }
-// donne la vitesse du personnage
-Vit.value=VitesseRace[RangRace];
-IMG.src=ImageRace[RangRace];
-console.log(ImageRace[RangRace]);
+
+    // enregistre les caractéristiques 
+    for (i = 0; i < 6; i++) {
+        BonCar[i + 1] = TabValeurRace[i];
+    }
+    // donne la vitesse du personnage
+    Vit.value = VitesseRace[RangRace];
+    IMG.src = ImageRace[RangRace];
+    console.log(ImageRace[RangRace]);
     CalCarac();
     FCheckComp();
 }
 
 // choix classe
 function Fclasse() {
-    RangClasse=Vclasse.value.replace("classe","");
-var TestSSclasse='NomSSclasse'+RangClasse;
-for (i=1;i<eval(TestSSclasse).length;i++){
-    ;
-}
+
+    for (i = 1; i <= 6; i++) {
+        BonClasse[i] = 0;
+    }
+    // affichage dynamique de l'image de classe
+    RangClasse = Vclasse.value.replace("classe", "");
+    var TestSSclasse = 'NomSSclasse' + RangClasse;
+    ImageBgClasse = ImageClasse[RangClasse].replace(NomClasse[RangClasse], NomClasse[RangClasse] + 2);
+    console.log(ImageBgClasse);
+    console.log(NomClasse[RangClasse]);
+    BgFeuille.style.backgroundImage = "url(" + ImageBgClasse + ")";
+    BgFeuille.style.backgroundPosition = "center bottom";
+    BgFeuille.style.backgroundRepeat = "no-repeat";
+    BgFeuille.style.backgroundSize = "auto 100%";
+
+    // attribut les bonus de sauvegarde
+    var TestSaveClasse = TabSaveClasse[RangClasse].split("/");
+    for (i = 0; i < 6; i++) {
+        if (TestSaveClasse[i] == "true") {
+
+            BonClasse[i + 1] = maitrise;
+        }
+    }
+
+    MsgComp.innerHTML = CompClasse[RangClasse];
+
+    // supprime puis recrée le champs select de la sous-classe
+    Vssclasse.remove();
+    RestoreSSclasse = document.createElement("select");
+    RestoreSSclasse.setAttribute('name', 'ssclasse');
+    RestoreSSclasse.setAttribute('id', 'formssclasse');
+    RestoreSSclasse.setAttribute('class', 'form-control');
+    labelssclasse.append(RestoreSSclasse);
+    Vssclasse = document.getElementById("formssclasse");
+    OptionSSclasse = document.createElement("option");
+    OptionSSclasse.setAttribute('value', '');
+    OptionSSclasse.textContent = 'Choisissez';
+    Vssclasse.append(OptionSSclasse);
+    // ------------
+
+    for (i = 1; i < eval(TestSSclasse).length; i++) {
+        OptionSSclasse = document.createElement("option");
+        OptionSSclasse.setAttribute('value', i);
+        OptionSSclasse.textContent = eval(TestSSclasse)[i];
+        Vssclasse.append(OptionSSclasse);
+    }
 
 
     // switch (Vclasse.value) {
@@ -289,10 +382,11 @@ function Freset() {
     IMG.src = "src/img/gold-dragon.jpg";
     DesCapa.innerHTML = "";
     MsgComp.innerHTML = "";
-    Vit.value="";
+    Vit.value = "";
     InitStat();
     CalCarac();
     FCheckComp()
 
 }
+
 

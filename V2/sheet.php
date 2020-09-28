@@ -6,10 +6,12 @@ DvClasse=[];
 CompClasse=[];
 TabSaveClasse=[];
 NomSSclasse=[];
+ImageClasse=[];
+
 </script>";
 ?>
     <!-- contenu de page -->
-    <div class="container shadow bg-white ">
+    <div class="container shadow bg-white " >
         <form action="http://bienvu.net/script.php" method="POST">
             <fieldset>
 
@@ -34,22 +36,37 @@ NomSSclasse=[];
                                 // enregistre les donnée necessaire dans des variables js depuis la bdd
                                 echo  "<option value=\"race".$produitchoix1->rac_ID."\">".$produitchoix1->rac_nom."</option>
                                 <script>
-                               NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
-                               ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
-                               VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";";
+                                NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
+                                ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
+                                VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";
+                                NomCapaRace".$produitchoix1->rac_ID."=[];
+                                DescCapaRace".$produitchoix1->rac_ID."=[];";
                             //    recupere le nom de l'image dans la bdd
                                $requeteimage="select * from article_race where artr_rac_ID=$produitchoix1->rac_ID";
                                $resultimage=$db->query($requeteimage);
                                $produitimage=$resultimage->fetch(PDO::FETCH_OBJ);
                                 echo " ImageRace[".$produitchoix1->rac_ID."]=\"$produitimage->artr_image\";
                                </script>";
+
+                            //    charge les capacités raciales
+                                $bouclecaparace=0;
+                                $requetecaparace="select * from capacite_race where cap_rac_ID=$produitchoix1->rac_ID";
+                                $resultcaparace=$db->query($requetecaparace);
+                                while ($produitcaparace=$resultcaparace->fetch(PDO::FETCH_OBJ))
+                                {
+                                    $bouclecaparace++;
+                                    echo "<script>
+                                    NomCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_nom_capacite\";
+                                    DescCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_description\";
+                                    </script>";
+                                }
                             }
                             $resultchoix1->closeCursor();
                             ?>
                             <!-- ---------------------------------- -->
                         </select>
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-sm-3" id="labelclasse">
                         <label for="classe">Classe</label>
                         <select name="classe" id="formclasse" class="form-control">
                             <option value="">choisissez</option>
@@ -69,7 +86,9 @@ NomSSclasse=[];
                                 NomClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_nom\";
                                 DvClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_DV\";
                                 CompClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_competences\";    
-                                TabSaveClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_savetab\";";
+                                TabSaveClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_savetab\";
+                                ImageClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_image\";";
+                                
                                 $requeteSSclasse="select * from ss_classe where sscl_cla_ID=$produitchoix2->cla_ID";
                                 $resultSSclasse=$db->query($requeteSSclasse);
                                 while ($produitSSclasse=$resultSSclasse->fetch(PDO::FETCH_OBJ)){
@@ -84,9 +103,11 @@ NomSSclasse=[];
                             ?>
                             <!-- --------------------------------- -->
                         </select>
-                        <label for="ssclasse">Sous-classe</label>
-                        <select name="ssclasse" id="formssclasse">
-                        <option value="">choisissez</option> 
+                        <label for="ssclasse" >Sous-classe</label>
+                        <select name="ssclasse" id="formssclasse" class="form-control">
+                        <option value="">Choisissez</option>
+  
+                        </select>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="historique">Historique</label>
@@ -102,8 +123,8 @@ NomSSclasse=[];
                     </div>
                 </div>
                 <!-- colonne carac  -->
-                <div class="row">
-                    <div class="col-sm-12 col-lg-7">
+            <div class="row">
+                <div class="col-sm-12 col-lg-7" >
                         <table class="table table-responsive-lg table-sm">
                             <thead>
                                 <tr>
@@ -222,8 +243,8 @@ NomSSclasse=[];
                         <div class="row">
                             <p class="text-danger mx-4" id="msgcomp"></p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
+                        <div class="row" id="bgfeuille">
+                            <div class="col-sm-6 col-md-4"  >
                                 <!-- -------------------------tableau des compétences--------------------  -->
                                 <table class="table table-sm ">
                                     <thead>
@@ -410,7 +431,7 @@ NomSSclasse=[];
                                 </table>
                             </div>
                             <!-- ------------------------CA/init/V -------------------- -->
-                            <div class="col-sm-8">
+                            <div class="col-sm-8" >
                                 <div class="row">
                                     <div class="d-none d-md-block col-md-1"></div>
                                     <div class="col-sm-3">
@@ -439,24 +460,11 @@ NomSSclasse=[];
                                 </div>
 
                                 <!-- Capacités---------------------------------------------------  -->
-                                <div class="row">
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th>Capacités</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div id=desccapa>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
+                                <div class="row pl-3 pt-2" >
+                                                <p class="h5 col-sm-12">Capacités</p>
+                                                <hr class="col-sm-12">
+                                                <div id="capacite" class="col-sm-12"></div>
+                               
                                 </div>
                             </div>
                         </div>
