@@ -7,7 +7,7 @@ CompClasse=[];
 TabSaveClasse=[];
 NomSSclasse=[];
 ImageClasse=[];
-
+CompRace=[];
 </script>";
 ?>
     <!-- contenu de page -->
@@ -26,7 +26,7 @@ ImageClasse=[];
                         <label for="race">Race </label>
                         <select name="race" id="formrace" class="form-control">
                             <option value="">Choisissez</option>
-                            <!-- crée les option pour la case race  -->
+                            <!-- crée les options pour la case race  -->
                             <?php 
                             $requetechoix1="select * from race";
                             $resultchoix1=$db->query($requetechoix1);
@@ -39,8 +39,10 @@ ImageClasse=[];
                                 NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
                                 ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
                                 VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";
+                                CompRace".$produitchoix1->rac_ID."=[];
                                 NomCapaRace".$produitchoix1->rac_ID."=[];
                                 DescCapaRace".$produitchoix1->rac_ID."=[];";
+
                             //    recupere le nom de l'image dans la bdd
                                $requeteimage="select * from article_race where artr_rac_ID=$produitchoix1->rac_ID";
                                $resultimage=$db->query($requeteimage);
@@ -58,6 +60,7 @@ ImageClasse=[];
                                     echo "<script>
                                     NomCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_nom_capacite\";
                                     DescCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_description\";
+                                    CompRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_comp\";
                                     </script>";
                                 }
                             }
@@ -125,6 +128,8 @@ ImageClasse=[];
                 <!-- colonne carac  -->
             <div class="row">
                 <div class="col-sm-12 col-lg-7" >
+                <p class="text-danger mx-4" id="msgCaracRace"></p>
+
                         <table class="table table-responsive-lg table-sm">
                             <thead>
                                 <tr>
@@ -161,7 +166,7 @@ ImageClasse=[];
                                             class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bdex" id="carac12"
-                                            readonly></td>
+                                    readonly    ></td>
                                     <td><input type="text" name="tdex" id="carac22" class="form-control p-0 text-center"
                                             readonly></td>
                                     <td><input type="text" name="mdex" id="carac32" class="form-control p-0 text-center"
@@ -177,7 +182,7 @@ ImageClasse=[];
                                             class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bcon" id="carac13"
-                                            readonly></td>
+                                    readonly    ></td>
                                     <td><input type="text" name="tcon" id="carac23" class="form-control p-0 text-center"
                                             readonly></td>
                                     <td><input type="text" name="mcon" id="carac33" class="form-control p-0 text-center"
@@ -193,7 +198,7 @@ ImageClasse=[];
                                             class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bint" id="carac14"
-                                            readonly></td>
+                                    readonly    ></td>
                                     <td><input type="text" name="tint" id="carac24" class="form-control p-0 text-center"
                                             readonly></td>
                                     <td><input type="text" name="mint" id="carac34" class="form-control p-0 text-center"
@@ -209,7 +214,7 @@ ImageClasse=[];
                                             class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bsag" id="carac15"
-                                            readonly></td>
+                                    readonly    ></td>
                                     <td><input type="text" name="tsag" id="carac25" class="form-control p-0 text-center"
                                             readonly></td>
                                     <td><input type="text" name="msag" id="carac35" class="form-control p-0 text-center"
@@ -225,7 +230,7 @@ ImageClasse=[];
                                             class="form-control p-0 text-center">
                                     </td>
                                     <td><input type="text" class="form-control p-0 text-center" name="bcha" id="carac16"
-                                            readonly></td>
+                                    readonly   ></td>
                                     <td><input type="text" name="tcha" id="carac26" class="form-control p-0 text-center"
                                             readonly></td>
                                     <td><input type="text" name="mcha" id="carac36" class="form-control p-0 text-center"
@@ -242,11 +247,12 @@ ImageClasse=[];
                         <!-- partie inférieur de la feuille  -->
                         <div class="row">
                             <p class="text-danger mx-4" id="msgcomp"></p>
+                            <p class="text-danger mx-4" id="msgcomprace"></p>
                         </div>
                         <div class="row" id="bgfeuille">
-                            <div class="col-sm-6 col-md-4"  >
+                            <div class="col-sm-6 col-md-5"  >
                                 <!-- -------------------------tableau des compétences--------------------  -->
-                                <table class="table table-sm ">
+                                <table class="table  table-sm">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -316,7 +322,6 @@ ImageClasse=[];
                                             <td><input type="text" name="vinv" id="vcomp7"
                                                     class=" form-control text-center " readonly></td>
                                         </tr>
-                                        <tr>
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="nat" id="comp8" onclick="FCheckComp()">
@@ -409,7 +414,7 @@ ImageClasse=[];
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="rep" id="comp17" onclick="FCheckComp(16)">
+                                                <input type="checkbox" name="rep" id="comp17" onclick="FCheckComp()">
                                             </td>
                                             <td>
                                                 <label for="rep">Representation</label>
@@ -419,7 +424,7 @@ ImageClasse=[];
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="tro" id="comp18" onclick="FCheckComp(18)">
+                                                <input type="checkbox" name="tro" id="comp18" onclick="FCheckComp()">
                                             </td>
                                             <td>
                                                 <label for="tro">Tromperie</label>
@@ -431,7 +436,7 @@ ImageClasse=[];
                                 </table>
                             </div>
                             <!-- ------------------------CA/init/V -------------------- -->
-                            <div class="col-sm-8" >
+                            <div class="col-sm-7" >
                                 <div class="row">
                                     <div class="d-none d-md-block col-md-1"></div>
                                     <div class="col-sm-3">

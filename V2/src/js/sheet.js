@@ -10,11 +10,13 @@ var Vit = document.getElementById("vitesse");
 var PV = document.getElementById("pv");
 var DV = document.getElementById("dv");
 var MsgComp = document.getElementById("msgcomp");
+var MsgCompRace = document.getElementById("msgcomprace");
+var MsgCaracRace = document.getElementById("msgCaracRace");
 var DesCapa = document.getElementById("desccapa");
 var labelssclasse = document.getElementById("labelclasse");
 var BgFeuille = document.getElementById("bgfeuille");
 var Opacite = document.getElementById("opacite");
-var DivCapacite=document.getElementById("capacite");
+var DivCapacite = document.getElementById("capacite");
 
 // -------
 
@@ -27,6 +29,7 @@ var TotCar = [];
 var BonClasse = [];
 var DeVie = 0;
 var maitrise = 2;
+var TabBon = [];
 // écoute élément en haut de tableau
 Vrace.addEventListener("click", Frace);
 Vclasse.addEventListener("click", Fclasse);
@@ -41,8 +44,8 @@ for (i = 1; i <= 46; i++) {
     TabCar[i] = document.getElementById("carac" + i);
 }
 for (i = 1; i <= 6; i++) {
-    TabCar[i].addEventListener("focusout", CalCarac);
-    TabCar[i].addEventListener("focusout", FCheckComp);
+    TabCar[i].addEventListener("input", CalCarac);
+    TabCar[i].addEventListener("input", FCheckComp);
 }
 
 // enregistre les emplacements du tableau de compétences
@@ -58,7 +61,10 @@ InitStat();
 CalCarac();
 FCheckComp()
 // fonctions-------------------------------------------
+function Fbonus() {
 
+
+}
 // initialisation des stats 
 function InitStat() {
     for (i = 1; i <= 6; i++) {
@@ -89,7 +95,7 @@ function FCheckComp() {
             ValComp[i].value = TabCar[36].value;
         }
         if (CheckComp[i].checked == true) {
-            ValComp[i].value = parseInt(ValComp[i].value) + 2;
+            ValComp[i].value = parseInt(ValComp[i].value) + parseInt(maitrise);
         }
     }
 
@@ -100,6 +106,10 @@ function FCheckComp() {
 function CalCarac() {
     for (i = 1; i <= 6; i++) {
         BasCar[i] = TabCar[i].value;
+        if (BasCar[i]==""){
+            BasCar[i]=0;
+            TabCar[i].value=0;
+        }
     }
     // calcul du total
     for (i = 1; i <= 6; i++) {
@@ -143,10 +153,15 @@ function CalCarac() {
 
 // choix de la race 
 function Frace() {
+    MsgCompRace.innerHTML = "";
+    MsgCaracRace.innerHTML = "";
+    for (i = 1; i <= 18; i++) {
+        CheckComp[i].checked = false;
+    }
     for (i = 1; i <= 6; i++) {
         BonCar[i] = 0;
     }
-    DivCapacite.innerHTML="";
+    DivCapacite.innerHTML = "";
     if (Vrace.value == "") {
         for (i = 1; i <= 6; i++) {
             BonCar[i] = 0;
@@ -159,59 +174,49 @@ function Frace() {
     RangRace = Vrace.value.replace("race", "");
     // découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
     TabValeurRace = ValeurRace[RangRace].split("/");
-var NomCR="NomCapaRace"+RangRace;
-var DescCR="DescCapaRace"+RangRace;
-
-// affichage des capacités raciales
-for (i=1;i<eval(NomCR).length;i++){
-    // creation de l'effet'dropdown
-    // DpContent=document.createElement("div");
-    // DpContent.setAttribute("class","dropright ");
-    // DpContent.setAttribute("id","DpDiv"+i)
-
-    // DpCapa=document.createElement("div");
-    // DpCapa.setAttribute("class","dropdown-menu")
-    // DpCapa.setAttribute("id","dropdown-capa"+i)
-// ----------
-// création des éléments titre et contenu 
-    // TitreCR=document.createElement("a");
-    // TitreCR.setAttribute("href","");
-    // TitreCR.setAttribute("class"," font-weight-bold text-reset ");
-    // TitreCR.setAttribute("data-toggle","dropdown");
-    // TitreCR.textContent="-"+eval(NomCR)[i];
-    // ContenuCR=document.createElement("p");
-    // ContenuCR.setAttribute("class","dropdown-item-text")
-    // ContenuCR.textContent=eval(DescCR)[i];
-// --------------------
-    // DivCapacite.append(DpContent);
-    // GetDpContent=document.getElementById("DpDiv"+i)
-    // GetDpContent.append(TitreCR);
-    // GetDpContent.append(DpCapa);
-    // ContenuDpCapa=document.getElementById("dropdown-capa"+i)
-    // ContenuDpCapa.append(ContenuCR);
-    // console.log(eval(DescCR)[i]);
-    TitreCR=document.createElement("button");
-    TitreCR.setAttribute("type","button");
-
-    TitreCR.setAttribute("class"," font-weight-bold text-reset btn btn-link  text-left d-block");
-    TitreCR.setAttribute("data-toggle","popover");
-    TitreCR.setAttribute("data-content",eval(DescCR)[i]);
-    TitreCR.textContent=eval(NomCR)[i];
-    DivCapacite.append(TitreCR);
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-      })
-
-}
-
     // enregistre les caractéristiques 
     for (i = 0; i < 6; i++) {
         BonCar[i + 1] = TabValeurRace[i];
     }
+
+    // coche la case compétence conrrespondant à une capacite raciale
+    var TabCR = "CompRace" + RangRace;
+    for (i = 1; i <= TabCR.length; i++) {
+        if (eval(TabCR)[i] != undefined && eval(TabCR)[i] != "") {
+            TabCompRace = eval(TabCR)[i].split("/");
+            for (u = 0; u < TabCompRace.length; u++) {
+                CheckComp[TabCompRace[u]].checked = true;
+                console.log(eval(TabCR)[i]);
+            }
+        }
+    }
+    // affichage des capacités raciales
+    var NomCR = "NomCapaRace" + RangRace;
+    var DescCR = "DescCapaRace" + RangRace;
+    for (i = 1; i < eval(NomCR).length; i++) {
+        TitreCR = document.createElement("button");
+        TitreCR.setAttribute("type", "button");
+
+        TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+        TitreCR.setAttribute("data-toggle", "popover");
+        TitreCR.setAttribute("data-content", eval(DescCR)[i]);
+        TitreCR.textContent = eval(NomCR)[i];
+        DivCapacite.append(TitreCR);
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    }
+
+    if (NomRace[RangRace] == "demi-elfe") {
+        MsgCompRace.textContent = "Vous gagnez la maîtrise de deux compétences de votre choix.";
+        MsgCaracRace.textContent = " Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1"
+    }
+
+
     // donne la vitesse du personnage
     Vit.value = VitesseRace[RangRace];
     IMG.src = ImageRace[RangRace];
-    console.log(ImageRace[RangRace]);
     CalCarac();
     FCheckComp();
 }
