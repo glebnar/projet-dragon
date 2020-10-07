@@ -8,6 +8,7 @@ TabSaveClasse=[];
 NomSSclasse=[];
 ImageClasse=[];
 CompRace=[];
+CheckssRace=[];
 </script>";
 ?>
     <!-- contenu de page -->
@@ -22,7 +23,7 @@ CompRace=[];
                         <label for="nom">Nom: </label>
                         <input class="form-control " type="text" name="nom" id="nom">
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-sm-3" id="div_race">
                         <label for="race">Race </label>
                         <select name="race" id="formrace" class="form-control">
                             <option value="">Choisissez</option>
@@ -34,11 +35,12 @@ CompRace=[];
                             {
                                 // rempli les option pour le formulaire select race 
                                 // enregistre les donnée necessaire dans des variables js depuis la bdd
-                                echo  "<option value=\"race".$produitchoix1->rac_ID."\">".$produitchoix1->rac_nom."</option>
+                                echo  "<option value=\"$produitchoix1->rac_ID\">".$produitchoix1->rac_nom."</option>
                                 <script>
                                 NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
                                 ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
                                 VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";
+                                CheckssRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_ss_rac\";
                                 CompRace".$produitchoix1->rac_ID."=[];
                                 NomCapaRace".$produitchoix1->rac_ID."=[];
                                 DescCapaRace".$produitchoix1->rac_ID."=[];";
@@ -68,6 +70,7 @@ CompRace=[];
                             ?>
                             <!-- ---------------------------------- -->
                         </select>
+                        <div id="div_ss_race"></div>
                     </div>
                     <div class="form-group col-sm-3" id="labelclasse">
                         <label for="classe">Classe</label>

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="src/css/style.css">
 <?php 
 require "connexion_BDD.php" ;
-$db=connexionbdd();
 ?>
 
 </head>

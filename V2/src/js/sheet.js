@@ -33,7 +33,7 @@ var TabBon = [];
 // écoute élément en haut de tableau
 Vrace.addEventListener("click", Frace);
 Vclasse.addEventListener("click", Fclasse);
-Vhisto.addEventListener("click", Fhisto);
+Vhisto.addEventListener("focusout", Fhisto);
 
 
 // emplacement de l'image
@@ -61,9 +61,29 @@ InitStat();
 CalCarac();
 FCheckComp()
 // fonctions-------------------------------------------
-function Fbonus() {
 
+$("#formrace").on('input', function(){
+    if ($("#formrace").val()!=""){
+    console.log("test1");
+        $.get(
+        'script_ss_race',
+            {
+                ChoixRace: $("#formrace").val(),
+            },
+        fonction_ss_race,
+        'html'
+        )
+    }
+})
 
+function fonction_ss_race(data){  
+    if (CheckssRace[$("#formrace").val()]==1){
+    $("#div_ss_race").empty();     
+    $("#div_ss_race").append(data);
+    }
+    else {
+        $("#div_ss_race").empty();     
+    }
 }
 // initialisation des stats 
 function InitStat() {
@@ -170,17 +190,17 @@ function Frace() {
         DesCapa.innerHTML = "";
     }
 
-    // recupere le rang (la place dans la liste) de la race choisie
-    RangRace = Vrace.value.replace("race", "");
+    // recupere l'ID de la race choisie
+    IDrace = Vrace.value;
     // découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
-    TabValeurRace = ValeurRace[RangRace].split("/");
+    TabValeurRace = ValeurRace[IDrace].split("/");
     // enregistre les caractéristiques 
     for (i = 0; i < 6; i++) {
         BonCar[i + 1] = TabValeurRace[i];
     }
 
     // coche la case compétence conrrespondant à une capacite raciale
-    var TabCR = "CompRace" + RangRace;
+    var TabCR = "CompRace" + IDrace;
     for (i = 1; i <= TabCR.length; i++) {
         if (eval(TabCR)[i] != undefined && eval(TabCR)[i] != "") {
             TabCompRace = eval(TabCR)[i].split("/");
@@ -191,8 +211,8 @@ function Frace() {
         }
     }
     // affichage des capacités raciales
-    var NomCR = "NomCapaRace" + RangRace;
-    var DescCR = "DescCapaRace" + RangRace;
+    var NomCR = "NomCapaRace" + IDrace;
+    var DescCR = "DescCapaRace" + IDrace;
     for (i = 1; i < eval(NomCR).length; i++) {
         TitreCR = document.createElement("button");
         TitreCR.setAttribute("type", "button");
@@ -208,15 +228,15 @@ function Frace() {
 
     }
 
-    if (NomRace[RangRace] == "demi-elfe") {
+    if (NomRace[IDrace] == "demi-elfe") {
         MsgCompRace.textContent = "Vous gagnez la maîtrise de deux compétences de votre choix.";
         MsgCaracRace.textContent = " Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1"
     }
 
 
     // donne la vitesse du personnage
-    Vit.value = VitesseRace[RangRace];
-    IMG.src = ImageRace[RangRace];
+    Vit.value = VitesseRace[IDrace];
+    IMG.src = ImageRace[IDrace];
     CalCarac();
     FCheckComp();
 }

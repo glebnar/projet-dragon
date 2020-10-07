@@ -1,6 +1,6 @@
    <?php
 
-   function connexionbdd(){
+
        
    try 
    {        
@@ -12,5 +12,5 @@
       echo "N° : " . $e->getCode();
       die("Fin du script");
 }       
-   }
+   
 ?>
