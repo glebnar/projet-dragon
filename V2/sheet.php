@@ -5,7 +5,6 @@ NomClasse=[];
 DvClasse=[];
 CompClasse=[];
 TabSaveClasse=[];
-NomSSclasse=[];
 ImageClasse=[];
 CompRace=[];
 CheckssRace=[];
@@ -26,7 +25,7 @@ CheckssRace=[];
                     <div class="form-group col-sm-3" id="div_race">
                         <label for="race">Race </label>
                         <select name="race" id="formrace" class="form-control">
-                            <option value="">Choisissez</option>
+                            <option value="defaut">Choisissez</option>
                             <!-- crée les options pour la case race  -->
                             <?php 
                             $requetechoix1="select * from race";
@@ -37,7 +36,6 @@ CheckssRace=[];
                                 // enregistre les donnée necessaire dans des variables js depuis la bdd
                                 echo  "<option value=\"$produitchoix1->rac_ID\">".$produitchoix1->rac_nom."</option>
                                 <script>
-                                NomRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_nom\";
                                 ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
                                 VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";
                                 CheckssRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_ss_rac\";
@@ -70,7 +68,7 @@ CheckssRace=[];
                             ?>
                             <!-- ---------------------------------- -->
                         </select>
-                        <div id="div_ss_race"></div>
+                        <div id="div_sous_race"></div>
                     </div>
                     <div class="form-group col-sm-3" id="labelclasse">
                         <label for="classe">Classe</label>
@@ -86,32 +84,20 @@ CheckssRace=[];
                                 // enregistre les donnée necessaire dans des variables js depuis la bdd
 
                                 $boucleSSclasse=0;
-                                echo  "<option value=\"classe".$produitchoix2->cla_ID."\">".$produitchoix2->cla_nom."</option>
+                                echo  "<option value=\"$produitchoix2->cla_ID\">".$produitchoix2->cla_nom."</option>
                                 <script>
-                                var NomSSclasse".$produitchoix2->cla_ID."=[];
                                 NomClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_nom\";
                                 DvClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_DV\";
                                 CompClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_competences\";    
                                 TabSaveClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_savetab\";
-                                ImageClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_image\";";
-                                
-                                $requeteSSclasse="select * from ss_classe where sscl_cla_ID=$produitchoix2->cla_ID";
-                                $resultSSclasse=$db->query($requeteSSclasse);
-                                while ($produitSSclasse=$resultSSclasse->fetch(PDO::FETCH_OBJ)){
-                                    $boucleSSclasse++;
-                                echo "
-                                NomSSclasse".$produitchoix2->cla_ID."[$boucleSSclasse]=\"$produitSSclasse->sscl_nom\";";
-                            }
-                                echo"
+                                ImageClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_image\";
                                 </script>";
                             }
                             $resultchoix2->closeCursor();
                             ?>
                             <!-- --------------------------------- -->
                         </select>
-                        <label for="ssclasse" >Sous-classe</label>
-                        <select name="ssclasse" id="formssclasse" class="form-control">
-                        <option value="">Choisissez</option>
+                        <div id="div_sous_classe"></div>
   
                         </select>
                     </div>

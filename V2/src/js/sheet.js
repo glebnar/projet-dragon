@@ -2,7 +2,6 @@
 // récupére les champs de du formulaire
 var Vrace = document.getElementById("formrace");
 var Vclasse = document.getElementById("formclasse");
-var Vssclasse = document.getElementById("formssclasse");
 var Vhisto = document.getElementById("historique");
 var Armure = document.getElementById("CA");
 var init = document.getElementById("initiative");
@@ -10,8 +9,6 @@ var Vit = document.getElementById("vitesse");
 var PV = document.getElementById("pv");
 var DV = document.getElementById("dv");
 var MsgComp = document.getElementById("msgcomp");
-var MsgCompRace = document.getElementById("msgcomprace");
-var MsgCaracRace = document.getElementById("msgCaracRace");
 var DesCapa = document.getElementById("desccapa");
 var labelssclasse = document.getElementById("labelclasse");
 var BgFeuille = document.getElementById("bgfeuille");
@@ -31,8 +28,6 @@ var DeVie = 0;
 var maitrise = 2;
 var TabBon = [];
 // écoute élément en haut de tableau
-Vrace.addEventListener("click", Frace);
-Vclasse.addEventListener("click", Fclasse);
 Vhisto.addEventListener("focusout", Fhisto);
 
 
@@ -61,30 +56,61 @@ InitStat();
 CalCarac();
 FCheckComp()
 // fonctions-------------------------------------------
-
+// requete déclenchée par le choix de la race 
 $("#formrace").on('input', function(){
-    if ($("#formrace").val()!=""){
-    console.log("test1");
+
+    if ($("#formrace").val()!="defaut"){
         $.get(
-        'script_ss_race',
+        'script_sous_race',
             {
                 ChoixRace: $("#formrace").val(),
             },
-        fonction_ss_race,
+        // fonction_sous_race,
+        Frace,
         'html'
         )
     }
-})
+    else {
+        $("#div_sous_race").empty();
+        $("#msgcomprace").empty();
+        $("#msgCaracRace").empty();
+        $("#imgclasse").attr('src','src/img/gold-dragon.jpg');
+        for (i = 1; i <= 6; i++) {
+            BonCar[i] = 0;
+        }
+        for (i = 1; i <= 18; i++) {
+            CheckComp[i].checked = false;
+        }
+    
+        CalCarac();
+        FCheckComp()
+        
 
-function fonction_ss_race(data){  
-    if (CheckssRace[$("#formrace").val()]==1){
-    $("#div_ss_race").empty();     
-    $("#div_ss_race").append(data);
+    }
+})
+// ------------------------------
+// genere le champs de choix de la sous classe 
+$("#formclasse").on('input', function(){
+    if ($("#formclasse").val()!=""){
+        $.get(
+        'script_sous_classe',
+            {
+                ChoixClasse: $("#formclasse").val(),
+            },
+        fonction_sous_classe,
+        'html'
+        )
     }
     else {
-        $("#div_ss_race").empty();     
+        $("#div_sous_classe").empty();     
     }
+})
+
+function fonction_sous_classe(data){  
+    $("#div_sous_classe").empty();     
+    $("#div_sous_classe").append(data);
 }
+// ------------------------------
 // initialisation des stats 
 function InitStat() {
     for (i = 1; i <= 6; i++) {
@@ -172,9 +198,24 @@ function CalCarac() {
 }
 
 // choix de la race 
-function Frace() {
-    MsgCompRace.innerHTML = "";
-    MsgCaracRace.innerHTML = "";
+function Frace(data) {
+    if ($("#formrace").val() == 5) {
+        $("#msgcomprace").text("Vous gagnez la maîtrise de deux compétences de votre choix.");
+        $("#msgCaracRace").text(" Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1");
+    } else {
+        $("#msgcomprace").empty();
+        $("#msgCaracRace").empty();
+
+    }
+    // affiche les sous-races 
+    if (CheckssRace[$("#formrace").val()]==1){
+        $("#div_sous_race").empty();     
+        $("#div_sous_race").append(data);
+        }
+        else {
+            $("#div_sous_race").empty();     
+        }
+    // ----------------
     for (i = 1; i <= 18; i++) {
         CheckComp[i].checked = false;
     }
@@ -182,18 +223,17 @@ function Frace() {
         BonCar[i] = 0;
     }
     DivCapacite.innerHTML = "";
-    if (Vrace.value == "") {
+    if (Vrace.value == "defaut") {
         for (i = 1; i <= 6; i++) {
             BonCar[i] = 0;
         }
-        IMG.src = "src/img/gold-dragon.jpg"
-        DesCapa.innerHTML = "";
     }
 
     // recupere l'ID de la race choisie
     IDrace = Vrace.value;
     // découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
-    TabValeurRace = ValeurRace[IDrace].split("/");
+    if ($("#formrace").val() != "defaut") {
+        TabValeurRace = ValeurRace[IDrace].split("/");}
     // enregistre les caractéristiques 
     for (i = 0; i < 6; i++) {
         BonCar[i + 1] = TabValeurRace[i];
@@ -206,7 +246,6 @@ function Frace() {
             TabCompRace = eval(TabCR)[i].split("/");
             for (u = 0; u < TabCompRace.length; u++) {
                 CheckComp[TabCompRace[u]].checked = true;
-                console.log(eval(TabCR)[i]);
             }
         }
     }
@@ -228,7 +267,7 @@ function Frace() {
 
     }
 
-    if (NomRace[IDrace] == "demi-elfe") {
+    if ($("#formrace").val() == "demi-elfe") {
         MsgCompRace.textContent = "Vous gagnez la maîtrise de deux compétences de votre choix.";
         MsgCaracRace.textContent = " Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1"
     }
@@ -249,10 +288,7 @@ function Fclasse() {
     }
     // affichage dynamique de l'image de classe
     RangClasse = Vclasse.value.replace("classe", "");
-    var TestSSclasse = 'NomSSclasse' + RangClasse;
     ImageBgClasse = ImageClasse[RangClasse].replace(NomClasse[RangClasse], NomClasse[RangClasse] + 2);
-    console.log(ImageBgClasse);
-    console.log(NomClasse[RangClasse]);
     BgFeuille.style.backgroundImage = "url(" + ImageBgClasse + ")";
     BgFeuille.style.backgroundPosition = "center bottom";
     BgFeuille.style.backgroundRepeat = "no-repeat";
@@ -269,26 +305,7 @@ function Fclasse() {
 
     MsgComp.innerHTML = CompClasse[RangClasse];
 
-    // supprime puis recrée le champs select de la sous-classe
-    Vssclasse.remove();
-    RestoreSSclasse = document.createElement("select");
-    RestoreSSclasse.setAttribute('name', 'ssclasse');
-    RestoreSSclasse.setAttribute('id', 'formssclasse');
-    RestoreSSclasse.setAttribute('class', 'form-control');
-    labelssclasse.append(RestoreSSclasse);
-    Vssclasse = document.getElementById("formssclasse");
-    OptionSSclasse = document.createElement("option");
-    OptionSSclasse.setAttribute('value', '');
-    OptionSSclasse.textContent = 'Choisissez';
-    Vssclasse.append(OptionSSclasse);
-    // ------------
 
-    for (i = 1; i < eval(TestSSclasse).length; i++) {
-        OptionSSclasse = document.createElement("option");
-        OptionSSclasse.setAttribute('value', i);
-        OptionSSclasse.textContent = eval(TestSSclasse)[i];
-        Vssclasse.append(OptionSSclasse);
-    }
 
 
     // switch (Vclasse.value) {
