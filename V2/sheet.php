@@ -1,6 +1,6 @@
 <?php
 include("header.php");
-echo "<script> ValeurRace=[];VitesseRace=[]; NomRace=[]; ImageRace=[];
+echo "<script> CaracRace=[];VitesseRace=[]; NomRace=[]; ImageRace=[];
 NomClasse=[];
 DvClasse=[];
 CompClasse=[];
@@ -28,7 +28,7 @@ CheckssRace=[];
                             <option value="defaut">Choisissez</option>
                             <!-- crée les options pour la case race  -->
                             <?php 
-                            $requetechoix1="select * from race";
+                            $requetechoix1="select rac_ID,rac_nom,rac_ss_rac from race";
                             $resultchoix1=$db->query($requetechoix1);
                             while ($produitchoix1=$resultchoix1->fetch(PDO::FETCH_OBJ))
                             {
@@ -36,33 +36,8 @@ CheckssRace=[];
                                 // enregistre les donnée necessaire dans des variables js depuis la bdd
                                 echo  "<option value=\"$produitchoix1->rac_ID\">".$produitchoix1->rac_nom."</option>
                                 <script>
-                                ValeurRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_carac\";
-                                VitesseRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_vitesse\";
                                 CheckssRace[".$produitchoix1->rac_ID."]=\"$produitchoix1->rac_ss_rac\";
-                                CompRace".$produitchoix1->rac_ID."=[];
-                                NomCapaRace".$produitchoix1->rac_ID."=[];
-                                DescCapaRace".$produitchoix1->rac_ID."=[];";
-
-                            //    recupere le nom de l'image dans la bdd
-                               $requeteimage="select * from article_race where artr_rac_ID=$produitchoix1->rac_ID";
-                               $resultimage=$db->query($requeteimage);
-                               $produitimage=$resultimage->fetch(PDO::FETCH_OBJ);
-                                echo " ImageRace[".$produitchoix1->rac_ID."]=\"$produitimage->artr_image\";
                                </script>";
-
-                            //    charge les capacités raciales
-                                $bouclecaparace=0;
-                                $requetecaparace="select * from capacite_race where cap_rac_ID=$produitchoix1->rac_ID";
-                                $resultcaparace=$db->query($requetecaparace);
-                                while ($produitcaparace=$resultcaparace->fetch(PDO::FETCH_OBJ))
-                                {
-                                    $bouclecaparace++;
-                                    echo "<script>
-                                    NomCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_nom_capacite\";
-                                    DescCapaRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_description\";
-                                    CompRace".$produitchoix1->rac_ID."[$bouclecaparace]=\"$produitcaparace->cap_comp\";
-                                    </script>";
-                                }
                             }
                             $resultchoix1->closeCursor();
                             ?>
@@ -86,7 +61,6 @@ CheckssRace=[];
                                 $boucleSSclasse=0;
                                 echo  "<option value=\"$produitchoix2->cla_ID\">".$produitchoix2->cla_nom."</option>
                                 <script>
-                                NomClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_nom\";
                                 DvClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_DV\";
                                 CompClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_competences\";    
                                 TabSaveClasse[".$produitchoix2->cla_ID."]=\"$produitchoix2->cla_savetab\";

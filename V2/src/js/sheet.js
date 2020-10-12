@@ -1,6 +1,5 @@
 
 // récupére les champs de du formulaire
-var Vrace = document.getElementById("formrace");
 var Vclasse = document.getElementById("formclasse");
 var Vhisto = document.getElementById("historique");
 var Armure = document.getElementById("CA");
@@ -12,7 +11,6 @@ var MsgComp = document.getElementById("msgcomp");
 var DesCapa = document.getElementById("desccapa");
 var labelssclasse = document.getElementById("labelclasse");
 var BgFeuille = document.getElementById("bgfeuille");
-var Opacite = document.getElementById("opacite");
 var DivCapacite = document.getElementById("capacite");
 
 // -------
@@ -28,7 +26,7 @@ var DeVie = 0;
 var maitrise = 2;
 var TabBon = [];
 // écoute élément en haut de tableau
-Vhisto.addEventListener("focusout", Fhisto);
+Vhisto.addEventListener("input", Fhisto);
 
 
 // emplacement de l'image
@@ -58,16 +56,24 @@ FCheckComp()
 // fonctions-------------------------------------------
 // requete déclenchée par le choix de la race 
 $("#formrace").on('input', function(){
-
     if ($("#formrace").val()!="defaut"){
         $.get(
-        'script_sous_race',
+        'script_liste_sous_race.php',
             {
                 ChoixRace: $("#formrace").val(),
             },
         // fonction_sous_race,
-        Frace,
+        fonction_sous_race,
         'html'
+        )
+        $.get(
+            'script_race.php',
+            {
+                GetRace: $("#formrace").val(),
+            },
+            Frace,
+            'json'
+
         )
     }
     else {
@@ -93,7 +99,7 @@ $("#formrace").on('input', function(){
 $("#formclasse").on('input', function(){
     if ($("#formclasse").val()!=""){
         $.get(
-        'script_sous_classe',
+        'script_liste_sous_classe.php',
             {
                 ChoixClasse: $("#formclasse").val(),
             },
@@ -105,10 +111,20 @@ $("#formclasse").on('input', function(){
         $("#div_sous_classe").empty();     
     }
 })
-
-function fonction_sous_classe(data){  
-    $("#div_sous_classe").empty();     
+function fonction_sous_classe(data){
+    $("#div_sous_classe").empty();
     $("#div_sous_classe").append(data);
+}
+function fonction_sous_race(data){  
+        // affiche les sous-races 
+        if (CheckssRace[$("#formrace").val()]==1){
+            $("#div_sous_race").empty();     
+            $("#div_sous_race").append(data);
+            }
+            else {
+                $("#div_sous_race").empty();     
+            }
+    
 }
 // ------------------------------
 // initialisation des stats 
@@ -199,23 +215,17 @@ function CalCarac() {
 
 // choix de la race 
 function Frace(data) {
+    // affiche les éléments spécifiques aux demi-elfes 
     if ($("#formrace").val() == 5) {
         $("#msgcomprace").text("Vous gagnez la maîtrise de deux compétences de votre choix.");
-        $("#msgCaracRace").text(" Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1");
+        $("#msgCaracRace").text("Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1");
     } else {
         $("#msgcomprace").empty();
         $("#msgCaracRace").empty();
 
     }
-    // affiche les sous-races 
-    if (CheckssRace[$("#formrace").val()]==1){
-        $("#div_sous_race").empty();     
-        $("#div_sous_race").append(data);
-        }
-        else {
-            $("#div_sous_race").empty();     
-        }
     // ----------------
+    // réinitialise les champs spécifique aux races 
     for (i = 1; i <= 18; i++) {
         CheckComp[i].checked = false;
     }
@@ -223,59 +233,52 @@ function Frace(data) {
         BonCar[i] = 0;
     }
     DivCapacite.innerHTML = "";
-    if (Vrace.value == "defaut") {
+    if ($("#formrace").val() == "defaut") {
         for (i = 1; i <= 6; i++) {
             BonCar[i] = 0;
         }
     }
 
-    // recupere l'ID de la race choisie
-    IDrace = Vrace.value;
-    // découpe la chaine contenu dans la tableau pour extraire les valeurs de caractéristique
+    // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
     if ($("#formrace").val() != "defaut") {
-        TabValeurRace = ValeurRace[IDrace].split("/");}
+        TabCaracRace = data.rac_carac.split("/");}
     // enregistre les caractéristiques 
     for (i = 0; i < 6; i++) {
-        BonCar[i + 1] = TabValeurRace[i];
+        BonCar[i + 1] = TabCaracRace[i];
     }
-
+    
     // coche la case compétence conrrespondant à une capacite raciale
-    var TabCR = "CompRace" + IDrace;
-    for (i = 1; i <= TabCR.length; i++) {
-        if (eval(TabCR)[i] != undefined && eval(TabCR)[i] != "") {
-            TabCompRace = eval(TabCR)[i].split("/");
-            for (u = 0; u < TabCompRace.length; u++) {
-                CheckComp[TabCompRace[u]].checked = true;
-            }
+    if (data.cap_comp!= undefined)
+    {for (i = 0; i < data.cap_comp.length; i++) {
+        if (data.cap_comp[i] != undefined && data.cap_comp[i] != "") {
+                CheckComp[data.cap_comp[i]].checked = true;
         }
-    }
+    }}
+
     // affichage des capacités raciales
-    var NomCR = "NomCapaRace" + IDrace;
-    var DescCR = "DescCapaRace" + IDrace;
-    for (i = 1; i < eval(NomCR).length; i++) {
-        TitreCR = document.createElement("button");
-        TitreCR.setAttribute("type", "button");
+    if ($("#formrace").val()!=3)
+    {   
+        for (i = 0; i < data.cap_nom_capacite.length; i++) {
+            TitreCR = document.createElement("button");
+            TitreCR.setAttribute("type", "button");
 
-        TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
-        TitreCR.setAttribute("data-toggle", "popover");
-        TitreCR.setAttribute("data-content", eval(DescCR)[i]);
-        TitreCR.textContent = eval(NomCR)[i];
-        DivCapacite.append(TitreCR);
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
+            TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+            TitreCR.setAttribute("data-toggle", "popover");
+            TitreCR.setAttribute("data-content", data.cap_description[i]);
+            TitreCR.textContent = data.cap_nom_capacite[i];
+            DivCapacite.append(TitreCR);
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
 
+        }   
     }
 
-    if ($("#formrace").val() == "demi-elfe") {
-        MsgCompRace.textContent = "Vous gagnez la maîtrise de deux compétences de votre choix.";
-        MsgCaracRace.textContent = " Choisissez deux caractéristiques (autre que le charisme) à augmenter de 1"
-    }
 
 
     // donne la vitesse du personnage
-    Vit.value = VitesseRace[IDrace];
-    IMG.src = ImageRace[IDrace];
+    $("#vitesse").val(data.rac_vitesse);
+    $("#imgclasse").attr("src","src/img/"+data.artr_image);
     CalCarac();
     FCheckComp();
 }
