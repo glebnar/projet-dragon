@@ -5,10 +5,7 @@ $requete_ss_race=$db->prepare("SELECT tri_ID, tri_nom FROM tribus where tri_rac_
 $requete_ss_race->execute();
 ?>
 
-
-<label for="SS_race">Sous-races</label>
-    <select name="SS_race" id="SS_race" class="form-control">
-        <option value="">Choisissez</option>
+        <option value="defaut">Choisissez</option>
     <?php  
     while ($option_ss_race=$requete_ss_race->fetch(PDO::FETCH_OBJ))
         { ?>
@@ -17,4 +14,4 @@ $requete_ss_race->execute();
 
 
       <?php  } ?>
-    </select>
+

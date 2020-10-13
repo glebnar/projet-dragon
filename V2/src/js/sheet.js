@@ -53,78 +53,132 @@ Reset.addEventListener("click", Freset);
 InitStat();
 CalCarac();
 FCheckComp()
-// fonctions-------------------------------------------
+// -----------------------------requetes AJAX---------------------------------------
 // requete déclenchée par le choix de la race 
 $("#formrace").on('input', function(){
     if ($("#formrace").val()!="defaut"){
         $.get(
-        'script_liste_sous_race.php',
+            'script_liste_sous_race.php',
             {
                 ChoixRace: $("#formrace").val(),
             },
-        // fonction_sous_race,
-        fonction_sous_race,
-        'html'
-        )
-        $.get(
-            'script_race.php',
-            {
-                GetRace: $("#formrace").val(),
-            },
-            Frace,
-            'json'
+            add_sous_race,
+            'html'
+            )
+            $.get(
+                'script_race.php',
+                {
+                    GetRace: $("#formrace").val(),
+                },
+                Frace,
+                'json'
+                
+                )
+            }
+            else {
+                $("#label_sous_race").attr('hidden','true');
+                $("#SS_race").attr('hidden','true');
+                $("#SS_race").empty();         
+                $("#msgcomprace").empty();
+                $("#msgCaracRace").empty();
+                $("#imgclasse").attr('src','src/img/gold-dragon.jpg');
+                $("#capacite_race").empty();
+                $("#capacite_sous_race").empty();
 
-        )
-    }
-    else {
-        $("#div_sous_race").empty();
-        $("#msgcomprace").empty();
-        $("#msgCaracRace").empty();
-        $("#imgclasse").attr('src','src/img/gold-dragon.jpg');
-        for (i = 1; i <= 6; i++) {
-            BonCar[i] = 0;
-        }
-        for (i = 1; i <= 18; i++) {
-            CheckComp[i].checked = false;
-        }
-    
-        CalCarac();
-        FCheckComp()
-        
+                for (i = 1; i <= 6; i++) {
+                    BonCar[i] = 0;
+                }
+                for (i = 1; i <= 18; i++) {
+                    CheckComp[i].checked = false;
+                }
+                
+                CalCarac();
+                FCheckComp()
+                
+                
+            }
+        })
+        // ------------------------------
+        // requete gérant le choix de classe 
+        $("#formclasse").on('input', function(){
+            if ($("#formclasse").val()!="defaut"){
+                $.get(
+                    'script_liste_sous_classe.php',
+                    {
+                        ChoixClasse: $("#formclasse").val(),
+                    },
+                    fonction_sous_classe,
+                    'html'
+                    )
+                }
+                else {
+                    $("#div_sous_classe").empty();     
+                }
+            })
+// --------------------------------------
+            $("#SS_race").on('input', function(){
+                if ($("#SS_race").val()!="defaut"){
+                    $.get(
+                        'script_sous_race.php',
+                        {
+                            Choix_sous_race: $("#SS_race").val(),
+                        },
+                        fonction_sous_race,
+                        'json'
+                    )
+                }
 
-    }
-})
-// ------------------------------
-// genere le champs de choix de la sous classe 
-$("#formclasse").on('input', function(){
-    if ($("#formclasse").val()!=""){
-        $.get(
-        'script_liste_sous_classe.php',
-            {
-                ChoixClasse: $("#formclasse").val(),
-            },
-        fonction_sous_classe,
-        'html'
-        )
-    }
-    else {
-        $("#div_sous_classe").empty();     
-    }
-})
+            })
+// -------------------------------------------------------------------
+// fonctions-------------------------------------------
+// affiche les sous classes
 function fonction_sous_classe(data){
     $("#div_sous_classe").empty();
     $("#div_sous_classe").append(data);
 }
-function fonction_sous_race(data){  
-        // affiche les sous-races 
-        if (CheckssRace[$("#formrace").val()]==1){
-            $("#div_sous_race").empty();     
-            $("#div_sous_race").append(data);
-            }
-            else {
-                $("#div_sous_race").empty();     
-            }
-    
+// -------------------------------
+// affiche les sous-races 
+function add_sous_race(data){  
+    if (CheckssRace[$("#formrace").val()]==1){
+        $("#label_sous_race").removeAttr('hidden');
+        $("#SS_race").removeAttr('hidden');
+        $("#SS_race").empty();     
+        $("#SS_race").append(data);
+    }
+    else {
+        $("#label_sous_race").attr('hidden','true');
+        $("#SS_race").attr('hidden','true');
+        $("#SS_race").empty(); 
+    }                
+}
+
+            // ------------------------------------------
+
+function fonction_sous_race(data){
+    $("#capacite_sous_race").empty();
+     // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
+     CaracSousRace = data.tri_carac.split("/");
+     // enregistre les caractéristiques 
+        for (i = 0; i < 6; i++) {
+            BonCar[i + 1] = TabCaracRace[i];
+            BonCar[i + 1]=parseInt(BonCar[i + 1]) + parseInt(CaracSousRace[i]);
+        }
+    // affiche les capacités des sous-races 
+        for (i = 0; i < data.cap_nom_capacite.length; i++) {
+            TitreCR = document.createElement("button");
+            TitreCR.setAttribute("type", "button");
+            
+            TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+            TitreCR.setAttribute("data-toggle", "popover");
+            TitreCR.setAttribute("data-content", data.cap_description[i]);
+            TitreCR.textContent = data.cap_nom_capacite[i];
+            $("#capacite_sous_race").append(TitreCR);
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+
+        }   
+        CalCarac();
 }
 // ------------------------------
 // initialisation des stats 
@@ -138,8 +192,6 @@ function InitStat() {
 }
 // fonction gérant les compétences
 function FCheckComp() {
-
-
     for (i = 1; i <= 18; i++) {
         if (i == 1) {
             ValComp[i].value = TabCar[31].value;
@@ -160,8 +212,6 @@ function FCheckComp() {
             ValComp[i].value = parseInt(ValComp[i].value) + parseInt(maitrise);
         }
     }
-
-
 }
 
 // fonction gérant les caractéristiques, les PV, la Ca et l'initiative
@@ -232,12 +282,13 @@ function Frace(data) {
     for (i = 1; i <= 6; i++) {
         BonCar[i] = 0;
     }
-    DivCapacite.innerHTML = "";
+    $("#capacite_race").empty();
     if ($("#formrace").val() == "defaut") {
         for (i = 1; i <= 6; i++) {
             BonCar[i] = 0;
         }
     }
+    $("#capacite_sous_race").empty();    
 
     // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
     if ($("#formrace").val() != "defaut") {
@@ -266,7 +317,7 @@ function Frace(data) {
             TitreCR.setAttribute("data-toggle", "popover");
             TitreCR.setAttribute("data-content", data.cap_description[i]);
             TitreCR.textContent = data.cap_nom_capacite[i];
-            DivCapacite.append(TitreCR);
+            $("#capacite_race").append(TitreCR);
             $(function () {
                 $('[data-toggle="popover"]').popover()
             })

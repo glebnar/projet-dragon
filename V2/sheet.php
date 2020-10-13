@@ -43,7 +43,11 @@ CheckssRace=[];
                             ?>
                             <!-- ---------------------------------- -->
                         </select>
-                        <div id="div_sous_race"></div>
+                        <div id="div_sous_race">
+                        <label for="SS_race" id="label_sous_race" hidden>Sous-races</label>
+                        <select name="SS_race" id="SS_race" class="form-control" hidden>
+                        </select>
+                        </div>
                     </div>
                     <div class="form-group col-sm-3" id="labelclasse">
                         <label for="classe">Classe</label>
@@ -431,7 +435,12 @@ CheckssRace=[];
                                 <div class="row pl-3 pt-2" >
                                                 <p class="h5 col-sm-12">Capacités</p>
                                                 <hr class="col-sm-12">
-                                                <div id="capacite" class="col-sm-12"></div>
+                                                <div id="capacite" class="col-sm-12">
+                                                    <div id="capacite_race"></div>
+                                                    <div id="capacite_sous_race"></div>
+                                                    <div id="capacite_classe"></div>
+                                                    <div id="capacite_historique"></div>
+                                                </div>
                                
                                 </div>
                             </div>

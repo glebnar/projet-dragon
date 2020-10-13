@@ -4,9 +4,9 @@ $ID_race=$_GET['GetRace'];
 
 if ($ID_race!=3)
 {
-    // va chercher les spécificitée de la race selectionnée 
+    // va chercher les spécificitée de la race selectionnée si elle a des capacités raciales
         $requete_race=$db->prepare("SELECT DISTINCT rac_carac,rac_vitesse,cap_nom_capacite,cap_description,cap_comp FROM race 
-        join capacite_race on rac_ID=cap_rac_ID where rac_ID=$ID_race");
+        join capacite_race on rac_ID=cap_rac_ID where rac_ID=$ID_race and cap_tri_ID is null");
         $requete_race->execute();
 
         if (!$requete_race) 
@@ -58,6 +58,8 @@ $requete_image->closeCursor();
 $resultat=['rac_carac'=>$rac_carac,'rac_vitesse'=>$rac_vitesse,
 'cap_nom_capacite'=>$NomCapaRace,'cap_description'=>$DescCapaRace,'cap_comp'=>$CompRace,'artr_image'=>$artr_image];
 echo json_encode($resultat);}
+    // va chercher les spécificitée de la race selectionnée si elle n'a pas de capacités raciales
+
 else {
     $requete_race=$db->prepare("SELECT DISTINCT rac_carac,rac_vitesse FROM race  where rac_ID=$ID_race");
     $requete_race->execute();

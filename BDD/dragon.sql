@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 12 oct. 2020 à 14:22
+-- Généré le : mar. 13 oct. 2020 à 14:34
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -157,45 +157,66 @@ DROP TABLE IF EXISTS `capacite_race`;
 CREATE TABLE IF NOT EXISTS `capacite_race` (
   `cap_ID` int(11) NOT NULL AUTO_INCREMENT,
   `cap_rac_ID` int(11) NOT NULL,
+  `cap_tri_ID` int(11) DEFAULT NULL,
   `cap_nom_capacite` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `cap_description` text COLLATE utf8_unicode_ci NOT NULL,
-  `cap_comp` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `cap_comp` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`cap_ID`),
   KEY `FK_capacite_race_race` (`cap_rac_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `capacite_race`
 --
 
-INSERT INTO `capacite_race` (`cap_ID`, `cap_rac_ID`, `cap_nom_capacite`, `cap_description`, `cap_comp`) VALUES
-(1, 1, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(2, 1, 'Sens aiguisés.', 'Vous maîtrisez la compétence Perception.', '12'),
-(3, 1, 'Ascendance féerique.', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.', ''),
-(4, 1, 'Transe', 'Les elfes n\'ont pas besoin de dormir. Au lieu de cela, ils méditent profondément, restant à demi conscients, 4 heures par jour (le mot commun pour désigner cette méditation est « transe »). En méditant, vous pouvez rêver, tant bien que mal ; ces rêves sont en fait des exercices mentaux qui deviennent un réflexe après des années de pratique. Après un repos de ce type, vous obtenez les mêmes avantages qu\'un humain après 8 heures de sommeil.', ''),
-(5, 2, 'Chanceux.', 'Lorsque vous obtenez un 1 au dé d\'un jet d\'attaque, de caractéristique ou de sauvegarde, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.', ''),
-(6, 2, 'Vaillant.', 'Vous avez un avantage aux jets de sauvegarde pour ne pas être effrayé.', ''),
-(7, 2, 'Agilité halfeline.', 'Vous pouvez passer dans l\'espace de toute créature d\'une taille supérieure à la vôtre.', ''),
-(8, 4, 'Résistance naine.', ' Vous avez un avantage aux jets de sauvegarde contre le poison et obtenez la résistance contre les dégâts de poison.', ''),
-(9, 4, 'Entraînement aux armes naines.', 'Vous obtenez la maîtrise des hachettes, des haches d\'armes, des marteaux légers et des marteaux de guerre.', ''),
-(10, 4, 'Maîtrise des outils.', 'Vous obtenez la maîtrise d\'un des outils d\'artisan suivant au choix : outils de forgeron, outils de brasseur ou outils de maçon.', ''),
-(11, 4, 'Connaissance de la pierre.', 'Chaque fois que vous effectuez un jet d\'Intelligence (Histoire) en relation avec l\'origine d\'un travail lié à la pierre, considérez que vous maîtrisez la compétence Histoire et ajoutez le double de votre bonus de maîtrise au jet, au lieu du bonus de maîtrise normal.', ''),
-(12, 5, 'Polyvalence.', 'Vous gagnez la maîtrise de deux compétences de votre choix.', ''),
-(13, 6, 'Menaçant', 'Vous gagnez la maîtrise de la compétence Intimidation.', '15'),
-(14, 6, 'Endurance implacable. ', 'Lorsque vous tombez à 0 point de vie, mais que vous n\'êtes pas tué sur le coup, vous pouvez passer à 1 point de vie à la place. Vous devez terminer un repos long avant de pouvoir utiliser cette capacité de nouveau.', ''),
-(15, 6, 'Attaques sauvages.', 'Lorsque vous réalisez un coup critique lors d\'une attaque au corps à corps avec une arme, vous pouvez jeter l\'un des dés de dégâts de l\'arme une deuxième fois et l\'ajouter aux dégâts supplémentaires du coup critique.', ''),
-(16, 7, 'Ascendance draconique.', ' Vous avez une ascendance draconique. Choisissez un type de dragon, votre souffle et votre résistance aux dégâts sont déterminés par le type de dragon', ''),
-(17, 7, 'Souffle.', 'Vous pouvez utiliser votre action pour expirer une énergie destructrice. Votre ascendance draconique détermine la taille, la forme et le type de dégâts de votre souffle. Lorsque vous utilisez votre souffle, toute créature dans la zone de l\'expiration doit faire un jet de sauvegarde, dont le type est déterminé par votre ascendance draconique. Le DD de ce jet de sauvegarde est égal à 8 + votre modificateur de Constitution + votre bonus de maîtrise. En cas d\'échec, la créature subit 2d6 dégâts, et la moitié en cas de réussite. Les dégâts augmentent à 3d6 au niveau 6, 4d6 au niveau 11, et 5d6 au niveau 16. Après avoir utilisé votre souffle, vous devez terminer un repos court ou long pour pouvoir l\'utiliser à nouveau.', ''),
-(18, 7, 'Résistance aux dégâts.', 'Vous obtenez la résistance au type de dégâts associé à votre ascendance draconique.', ''),
-(19, 8, 'Ruse gnome.', 'Vous avez un avantage aux jets de sauvegarde d\'Intelligence, de Sagesse et de Charisme contre la magie.', ''),
-(20, 9, 'Résistance infernale.', 'Vous avez la résistance aux dégâts de feu.', ''),
-(21, 9, 'Ascendance infernale.', ' Vous connaissez le sort mineur thaumaturgie. Quand vous atteignez le niveau 3, vous pouvez lancer le sort représailles infernales comme un sort de niveau 2 une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Quand vous atteignez le niveau 5, vous pouvez lancer le sort ténèbres une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Le Charisme est votre caractéristique d\'incantation pour ces sorts.', ''),
-(22, 4, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(24, 5, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(25, 6, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(26, 8, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(27, 9, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
-(28, 5, 'Ascendance féerique', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.', '');
+INSERT INTO `capacite_race` (`cap_ID`, `cap_rac_ID`, `cap_tri_ID`, `cap_nom_capacite`, `cap_description`, `cap_comp`) VALUES
+(1, 1, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(2, 1, NULL, 'Sens aiguisés.', 'Vous maîtrisez la compétence Perception.', '12'),
+(3, 1, NULL, 'Ascendance féerique.', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.', ''),
+(4, 1, NULL, 'Transe', 'Les elfes n\'ont pas besoin de dormir. Au lieu de cela, ils méditent profondément, restant à demi conscients, 4 heures par jour (le mot commun pour désigner cette méditation est « transe »). En méditant, vous pouvez rêver, tant bien que mal ; ces rêves sont en fait des exercices mentaux qui deviennent un réflexe après des années de pratique. Après un repos de ce type, vous obtenez les mêmes avantages qu\'un humain après 8 heures de sommeil.', ''),
+(5, 2, NULL, 'Chanceux.', 'Lorsque vous obtenez un 1 au dé d\'un jet d\'attaque, de caractéristique ou de sauvegarde, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.', ''),
+(6, 2, NULL, 'Vaillant.', 'Vous avez un avantage aux jets de sauvegarde pour ne pas être effrayé.', ''),
+(7, 2, NULL, 'Agilité halfeline.', 'Vous pouvez passer dans l\'espace de toute créature d\'une taille supérieure à la vôtre.', ''),
+(8, 4, NULL, 'Résistance naine.', ' Vous avez un avantage aux jets de sauvegarde contre le poison et obtenez la résistance contre les dégâts de poison.', ''),
+(9, 4, NULL, 'Entraînement aux armes naines.', 'Vous obtenez la maîtrise des hachettes, des haches d\'armes, des marteaux légers et des marteaux de guerre.', ''),
+(10, 4, NULL, 'Maîtrise des outils.', 'Vous obtenez la maîtrise d\'un des outils d\'artisan suivant au choix : outils de forgeron, outils de brasseur ou outils de maçon.', ''),
+(11, 4, NULL, 'Connaissance de la pierre.', 'Chaque fois que vous effectuez un jet d\'Intelligence (Histoire) en relation avec l\'origine d\'un travail lié à la pierre, considérez que vous maîtrisez la compétence Histoire et ajoutez le double de votre bonus de maîtrise au jet, au lieu du bonus de maîtrise normal.', ''),
+(12, 5, NULL, 'Polyvalence.', 'Vous gagnez la maîtrise de deux compétences de votre choix.', ''),
+(13, 6, NULL, 'Menaçant', 'Vous gagnez la maîtrise de la compétence Intimidation.', '15'),
+(14, 6, NULL, 'Endurance implacable. ', 'Lorsque vous tombez à 0 point de vie, mais que vous n\'êtes pas tué sur le coup, vous pouvez passer à 1 point de vie à la place. Vous devez terminer un repos long avant de pouvoir utiliser cette capacité de nouveau.', ''),
+(15, 6, NULL, 'Attaques sauvages.', 'Lorsque vous réalisez un coup critique lors d\'une attaque au corps à corps avec une arme, vous pouvez jeter l\'un des dés de dégâts de l\'arme une deuxième fois et l\'ajouter aux dégâts supplémentaires du coup critique.', ''),
+(16, 7, NULL, 'Ascendance draconique.', ' Vous avez une ascendance draconique. Choisissez un type de dragon, votre souffle et votre résistance aux dégâts sont déterminés par le type de dragon', ''),
+(17, 7, NULL, 'Souffle.', 'Vous pouvez utiliser votre action pour expirer une énergie destructrice. Votre ascendance draconique détermine la taille, la forme et le type de dégâts de votre souffle. Lorsque vous utilisez votre souffle, toute créature dans la zone de l\'expiration doit faire un jet de sauvegarde, dont le type est déterminé par votre ascendance draconique. Le DD de ce jet de sauvegarde est égal à 8 + votre modificateur de Constitution + votre bonus de maîtrise. En cas d\'échec, la créature subit 2d6 dégâts, et la moitié en cas de réussite. Les dégâts augmentent à 3d6 au niveau 6, 4d6 au niveau 11, et 5d6 au niveau 16. Après avoir utilisé votre souffle, vous devez terminer un repos court ou long pour pouvoir l\'utiliser à nouveau.', ''),
+(18, 7, NULL, 'Résistance aux dégâts.', 'Vous obtenez la résistance au type de dégâts associé à votre ascendance draconique.', ''),
+(19, 8, NULL, 'Ruse gnome.', 'Vous avez un avantage aux jets de sauvegarde d\'Intelligence, de Sagesse et de Charisme contre la magie.', ''),
+(20, 9, NULL, 'Résistance infernale.', 'Vous avez la résistance aux dégâts de feu.', ''),
+(21, 9, NULL, 'Ascendance infernale.', ' Vous connaissez le sort mineur thaumaturgie. Quand vous atteignez le niveau 3, vous pouvez lancer le sort représailles infernales comme un sort de niveau 2 une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Quand vous atteignez le niveau 5, vous pouvez lancer le sort ténèbres une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Le Charisme est votre caractéristique d\'incantation pour ces sorts.', ''),
+(22, 4, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(24, 5, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(25, 6, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(26, 8, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(27, 9, NULL, 'Vision dans le noir.', 'Vous pouvez voir à 18 mètres dans une lumière faible comme vous verriez avec une lumière vive, et dans le noir comme vous verriez avec une lumière faible. Dans le noir, vous ne discernez pas les couleurs, uniquement des nuances de gris.', ''),
+(28, 5, NULL, 'Ascendance féerique', 'Vous avez un avantage aux jets de sauvegarde contre les effets de charme et la magie ne peut pas vous endormir.', ''),
+(29, 1, 1, 'Entraînement aux armes elfiques.', 'Vous obtenez la maîtrise des épées (longues et courtes) et des arcs (longs et courts).', NULL),
+(30, 1, 1, 'Sort mineur.', ' Vous connaissez un sort mineur de votre choix parmi la liste des sorts mineurs de magicien. L\'\'Intelligence est votre caractéristique d\'\'incantation pour ce sort.', NULL),
+(31, 1, 1, 'Langue supplémentaire.', ' Vous parlez, lisez et écrivez une langue supplémentaire de votre choix.', NULL),
+(39, 1, 2, 'Entraînement aux armes elfiques.', ' Vous obtenez la maîtrise des épées (longues et courtes) et des arcs (longs et courts).', NULL),
+(40, 1, 2, 'Pied léger.', ' Votre vitesse de base passe à 10,50 mètres.', NULL),
+(41, 1, 2, 'Cachette naturelle.', ' Vous pouvez tenter de vous cacher dans une zone à visibilité réduite, comme en présence de branchages, de forte pluie, de neige qui tombe, de brume ou autre phénomène naturel.', NULL),
+(42, 1, 3, 'Vision dans le noir supérieure.', ' Votre vision dans le noir est étendue à 36 mètres.', NULL),
+(43, 1, 3, 'Sensibilité à la lumière du soleil.', 'Vous avez un désavantage aux jets d\'\'attaque et aux jets de Sagesse (Perception) basés sur ​​la vue quand vous, la cible de l\'\'attaque ou ce que vous essayez de détecter est exposé à la lumière du soleil.', NULL),
+(44, 1, 3, 'Magie drow.', '  Vous connaissez le sort mineur lumières dansantes. Lorsque vous atteignez le niveau 3, vous pouvez lancer le sort lueurs féeriques une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Lorsque vous atteignez le niveau 5, vous pouvez lancer le sort ténèbres une fois avec ce trait et regagnez cette capacité lorsque vous terminez un repos long. Le Charisme est votre caractéristique d\'\'incantation pour ces sorts.', NULL),
+(45, 1, 3, 'Entraînement aux armes drows.', 'Vous obtenez la maîtrise des rapières, des épées courtes et des arbalètes de poing.', NULL),
+(46, 2, 4, 'Discrétion naturelle.', ' Vous pouvez tenter de vous cacher si vous vous trouvez derrière une créature d\'\'une taille supérieure à la vôtre.', NULL),
+(47, 2, 5, 'Résistance des robustes. ', 'Vous obtenez un avantage aux jets de sauvegarde contre le poison et la résistance contre les dégâts de poison.', NULL),
+(48, 4, 6, 'Robustesse naine.', ' Vos points de vie maximums augmentent de 1 à chaque niveau.', NULL),
+(49, 4, 7, 'Formation au port des armures naines.', ' Vous maîtrisez les armures légères et intermédiaires.', NULL),
+(50, 8, 8, 'Illusionniste-né.', ' Vous connaissez le sort mineur illusion mineure. L\'\'Intelligence est votre caractéristique d\'\'incantation pour ce sort.', NULL),
+(51, 8, 8, 'Communication avec les petits animaux.', ' À l\'\'aide de sons et de gestes, vous pouvez communiquer des idées simples à des bêtes de taille P ou plus petite. Les gnomes des forêts aiment les animaux et traitent de manière bienveillante comme un animal domestique tout animal qu\'\'ils peuvent trouver (écureuils, blaireaux, lapins, taupes, picidés, etc.).', NULL),
+(52, 8, 8, 'Illusionniste-né.', ' Vous connaissez le sort mineur illusion mineure. L\'\'Intelligence est votre caractéristique d\'\'incantation pour ce sort.', NULL),
+(53, 8, 8, 'Communication avec les petits animaux.', ' À l\'\'aide de sons et de gestes, vous pouvez communiquer des idées simples à des bêtes de taille P ou plus petite. Les gnomes des forêts aiment les animaux et traitent de manière bienveillante comme un animal domestique tout animal qu\'\'ils peuvent trouver (écureuils, blaireaux, lapins, taupes, picidés, etc.).', NULL),
+(54, 8, 9, 'Connaissance en ingénierie.', ' Chaque fois que vous effectuez un jet d\'\'Intelligence (Histoire) en relation avec l\'\'alchimie, des objets magiques ou des dispositifs technologiques, ajoutez le double de votre bonus de maîtrise au jet, au lieu du bonus de maîtrise normal.', NULL),
+(55, 8, 9, 'Bricoleur.', ' Vous maîtrisez les outils de bricoleur. En utilisant ces outils, vous pouvez passer 1 heure et dépenser pour 10 po de matériaux pour construire un mécanisme de taille TP, de CA 5 et 1 pv. Le dispositif cesse de fonctionner après 24 heures (sauf si vous passez 1 heure à le réparer) ou si vous utilisez une action pour le démonter ; à ce moment, vous pouvez récupérer les matériaux que vous avez utilisés pour le créer. Vous pouvez avoir jusqu\'\'à trois de ces dispositifs actifs à la fois. Lorsque vous créez un mécanisme, choisissez l\'\'une des options suivantes :\r\n-Allume feu. Le mécanisme produit une toute petite flamme qui peut être utilisée pour allumer une bougie ou une torche au prix d\'\'une action.\r\n-Boîte à musique. Lorsqu\'\'on l\'\'ouvre, la boîte reproduit une chanson (toujours la même) à un volume modéré jusqu\'\'à la fin du morceau ou avant si la boîte est refermée.\r\n-Jouet mécanique. Le jouet représente un animal ou une personne, comme une grenouille, une souris, un oiseau ou un soldat, sur des roulettes. Lorsqu\'\'il est placé sur le sol, il se déplace de 1,50 mètre chaque tour dans une direction aléatoire et fait des bruits en fonction de la créature qu\'\'il représente.', NULL);
 
 -- --------------------------------------------------------
 
@@ -535,21 +556,6 @@ CREATE TABLE IF NOT EXISTS `historique` (
   `his_equipement` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `his_competences` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`his_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `origine`
---
-
-DROP TABLE IF EXISTS `origine`;
-CREATE TABLE IF NOT EXISTS `origine` (
-  `ori_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ori_rac_ID` int(11) NOT NULL,
-  `ori_nom` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `ori_carac` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`ori_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
