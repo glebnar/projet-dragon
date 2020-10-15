@@ -20,8 +20,8 @@ if ($ID_race!=3)
             // Pas d'enregistrement
             die("La table est vide");
         }    
-
         $row=$requete_race->fetch(PDO::FETCH_OBJ);
+
         $rac_carac=$row->rac_carac;
         $rac_vitesse=$row->rac_vitesse;
         $NomCapaRace[]=$row->cap_nom_capacite;
@@ -58,7 +58,7 @@ $requete_image->closeCursor();
 $resultat=['rac_carac'=>$rac_carac,'rac_vitesse'=>$rac_vitesse,
 'cap_nom_capacite'=>$NomCapaRace,'cap_description'=>$DescCapaRace,'cap_comp'=>$CompRace,'artr_image'=>$artr_image];
 echo json_encode($resultat);}
-    // va chercher les spécificitée de la race selectionnée si elle n'a pas de capacités raciales
+    // va chercher les spécificitée de la race selectionnée si elle n'a pas des capacités raciales
 
 else {
     $requete_race=$db->prepare("SELECT DISTINCT rac_carac,rac_vitesse FROM race  where rac_ID=$ID_race");

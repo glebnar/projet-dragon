@@ -52,7 +52,7 @@ CheckssRace=[];
                     <div class="form-group col-sm-3" id="labelclasse">
                         <label for="classe">Classe</label>
                         <select name="classe" id="formclasse" class="form-control">
-                            <option value="">choisissez</option>
+                            <option value="defaut">choisissez</option>
                             <!-- crée les options pour la case classes  -->
                             <?php 
                             $requetechoix2="select * from classes";
@@ -75,7 +75,12 @@ CheckssRace=[];
                             ?>
                             <!-- --------------------------------- -->
                         </select>
-                        <div id="div_sous_classe"></div>
+                        <div id="div_sous_classe">
+                        <label for="SS_classe" id="label_sous_classe" hidden>Sous-classes</label>
+                        <select name="SS_classe" id="SS_classe" class="form-control" hidden>
+                        </select>
+
+                        </div>
   
                         </select>
                     </div>
@@ -211,8 +216,19 @@ CheckssRace=[];
                             </tbody>
                         </table>
                         <hr>
-                        <!-- partie inférieur de la feuille  -->
-                        <div class="row">
+                    </div>
+                    <!-- image colonne de droite  -->
+                    <div class="d-none d-lg-block col-lg-5 pt-5">
+                        <img src="src/img/gold-dragon.jpg" class="img-fluid" alt="illustration de la classe"
+                            id="imgclasse">
+                            <table class="table  table-sm" id="table_sorts" hidden>
+                            </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-7">
+                                                <!-- partie inférieur de la feuille  -->
+                                                <div class="row">
                             <p class="text-danger mx-4" id="msgcomp"></p>
                             <p class="text-danger mx-4" id="msgcomprace"></p>
                         </div>
@@ -433,24 +449,26 @@ CheckssRace=[];
 
                                 <!-- Capacités---------------------------------------------------  -->
                                 <div class="row pl-3 pt-2" >
-                                                <p class="h5 col-sm-12">Capacités</p>
-                                                <hr class="col-sm-12">
-                                                <div id="capacite" class="col-sm-12">
+                                    <div id="capacite" class="col-sm-12">
+                                                <p class="h5 ">Capacités</p>
+                                                <hr class="">
                                                     <div id="capacite_race"></div>
+                                                    <hr class="">
                                                     <div id="capacite_sous_race"></div>
+                                                    <hr class="">
                                                     <div id="capacite_classe"></div>
+                                                    <hr class="">
+                                                    <div id="capacite_sous_classe"></div>
+                                                    <hr class="">
                                                     <div id="capacite_historique"></div>
-                                                </div>
+                                    </div>
                                
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <!-- image colonne de droite  -->
-                    <div class="d-none d-lg-block col-lg-5 p-0">
-                        <img src="src/img/gold-dragon.jpg" class="img-fluid" alt="illustration de la classe"
-                            id="imgclasse">
-                    </div>
+                    <div class=" col-sm-5" id="bonus_sort" ></div>
                 </div>
             </fieldset>
             <!-- boutons de validation/reset  -->

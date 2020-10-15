@@ -1,4 +1,6 @@
 .dropdown-item:hover{
 background-color: black;
 }
-
+#imgclasse {
+    max-height: 400px;
+}

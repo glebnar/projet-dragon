@@ -100,41 +100,103 @@ $("#formrace").on('input', function(){
         })
         // ------------------------------
         // requete gérant le choix de classe 
-        $("#formclasse").on('input', function(){
-            if ($("#formclasse").val()!="defaut"){
-                $.get(
-                    'script_liste_sous_classe.php',
-                    {
-                        ChoixClasse: $("#formclasse").val(),
-                    },
-                    fonction_sous_classe,
-                    'html'
-                    )
-                }
-                else {
-                    $("#div_sous_classe").empty();     
-                }
-            })
+$("#formclasse").on('input', function(){
+    if ($("#formclasse").val()!="defaut"){
+        $.get(
+                'script_liste_sous_classe.php',
+                {
+                    ChoixClasse: $("#formclasse").val(),
+                },
+                add_sous_classe,
+                'html'
+            )
+        $.get(
+            'script_classe.php',
+            {
+                ChoixClasse: $("#formclasse").val(),
+            },
+            Fclasse,
+            'json'
+        )
+    }
+    else {
+            $("#bonus_sort").empty();
+            $("#SS_classe").attr('hidden','true');
+            $("#label_sous_classe").attr('hidden','true');
+            $("#capacite_classe").empty();
+            $("#msgcomp").empty();
+            $("#pv").val("");
+            $("#dv").val("");
+         
+    }
+})
 // --------------------------------------
-            $("#SS_race").on('input', function(){
-                if ($("#SS_race").val()!="defaut"){
-                    $.get(
-                        'script_sous_race.php',
-                        {
-                            Choix_sous_race: $("#SS_race").val(),
-                        },
-                        fonction_sous_race,
-                        'json'
-                    )
-                }
-
-            })
+$("#SS_race").on('input', function(){
+    if ($("#SS_race").val()!="defaut"){
+        $.get(
+            'script_sous_race.php',
+            {
+                Choix_sous_race: $("#SS_race").val(),
+            },
+            fonction_sous_race,
+            'json'
+        )
+    }
+})
 // -------------------------------------------------------------------
+$("#SS_classe").on('input', function(){
+
+    if ($("#SS_classe").val()!="defaut"){
+        $.get(
+            'script_sous_classe.php',
+            {
+                ChoixClasse: $("#SS_classe").val(),
+            },
+            fonction_sous_classe,
+            'json'
+        )
+
+        $.get(
+            'script_sort_bonus',
+            {
+                sousclasse:$("#SS_classe").val(),
+            },
+            function(data){    $("#bonus_sort").append(data);
+        },
+            'html'
+        )
+    }else{
+        $("#bonus_sort").empty();
+
+    }
+
+})
+
 // fonctions-------------------------------------------
-// affiche les sous classes
 function fonction_sous_classe(data){
-    $("#div_sous_classe").empty();
-    $("#div_sous_classe").append(data);
+    $("#capacite_sous_classe").empty();
+    for (i=0;i<data.capcl_nom_capacite.length;i++){ 
+        TitreCR = document.createElement("button");
+        TitreCR.setAttribute("type", "button");
+
+        TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+        TitreCR.setAttribute("data-toggle", "popover");
+        TitreCR.setAttribute("data-content", data.capcl_description[i]);
+        TitreCR.textContent = data.capcl_nom_capacite[i];
+        $("#capacite_sous_classe").append(TitreCR);
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    }
+}
+
+// affiche les sous classes
+function add_sous_classe(data){
+    $("#label_sous_classe").removeAttr('hidden');
+    $("#SS_classe").removeAttr('hidden');
+    $("#SS_classe").empty();
+    $("#SS_classe").append(data);
 }
 // -------------------------------
 // affiche les sous-races 
@@ -154,33 +216,6 @@ function add_sous_race(data){
 
             // ------------------------------------------
 
-function fonction_sous_race(data){
-    $("#capacite_sous_race").empty();
-     // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
-     CaracSousRace = data.tri_carac.split("/");
-     // enregistre les caractéristiques 
-        for (i = 0; i < 6; i++) {
-            BonCar[i + 1] = TabCaracRace[i];
-            BonCar[i + 1]=parseInt(BonCar[i + 1]) + parseInt(CaracSousRace[i]);
-        }
-    // affiche les capacités des sous-races 
-        for (i = 0; i < data.cap_nom_capacite.length; i++) {
-            TitreCR = document.createElement("button");
-            TitreCR.setAttribute("type", "button");
-            
-            TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
-            TitreCR.setAttribute("data-toggle", "popover");
-            TitreCR.setAttribute("data-content", data.cap_description[i]);
-            TitreCR.textContent = data.cap_nom_capacite[i];
-            $("#capacite_sous_race").append(TitreCR);
-            $(function () {
-                $('[data-toggle="popover"]').popover()
-            })
-
-        }   
-        CalCarac();
-}
-// ------------------------------
 // initialisation des stats 
 function InitStat() {
     for (i = 1; i <= 6; i++) {
@@ -249,15 +284,6 @@ function CalCarac() {
 
     }
 
-    // calcul des PV 
-    if (Vclasse.value != "") {
-        PV.value = parseInt(DeVie) + parseInt(TabCar[33].value);
-        DV.value = "D" + DeVie;
-    }
-    else {
-        PV.value = "";
-        DV.value = "";
-    }
     // armure et initiative 
     Armure.value = 10 + parseInt(TabCar[32].value);
     init.value = TabCar[32].value;
@@ -283,12 +309,13 @@ function Frace(data) {
         BonCar[i] = 0;
     }
     $("#capacite_race").empty();
+    $("#capacite_sous_race").empty(); 
+       
     if ($("#formrace").val() == "defaut") {
         for (i = 1; i <= 6; i++) {
             BonCar[i] = 0;
         }
     }
-    $("#capacite_sous_race").empty();    
 
     // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
     if ($("#formrace").val() != "defaut") {
@@ -334,82 +361,75 @@ function Frace(data) {
     FCheckComp();
 }
 
+function fonction_sous_race(data){
+    $("#capacite_sous_race").empty();
+     // découpe la chaine contenu dans la table pour extraire les valeurs de caractéristique
+     CaracSousRace = data.tri_carac.split("/");
+     // enregistre les caractéristiques 
+        for (i = 0; i < 6; i++) {
+            BonCar[i + 1] = TabCaracRace[i];
+            BonCar[i + 1]=parseInt(BonCar[i + 1]) + parseInt(CaracSousRace[i]);
+        }
+    // affiche les capacités des sous-races 
+        for (i = 0; i < data.cap_nom_capacite.length; i++) {
+            TitreCR = document.createElement("button");
+            TitreCR.setAttribute("type", "button");
+            
+            TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+            TitreCR.setAttribute("data-toggle", "popover");
+            TitreCR.setAttribute("data-content", data.cap_description[i]);
+            TitreCR.textContent = data.cap_nom_capacite[i];
+            $("#capacite_sous_race").append(TitreCR);
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+
+        }   
+        CalCarac();
+}
+
 // choix classe
-function Fclasse() {
+function Fclasse(data) {
+    $("#bonus_sort").empty();
 
     for (i = 1; i <= 6; i++) {
         BonClasse[i] = 0;
     }
-    // affichage dynamique de l'image de classe
-    RangClasse = Vclasse.value.replace("classe", "");
-    ImageBgClasse = ImageClasse[RangClasse].replace(NomClasse[RangClasse], NomClasse[RangClasse] + 2);
-    BgFeuille.style.backgroundImage = "url(" + ImageBgClasse + ")";
-    BgFeuille.style.backgroundPosition = "center bottom";
-    BgFeuille.style.backgroundRepeat = "no-repeat";
-    BgFeuille.style.backgroundSize = "auto 100%";
 
     // attribut les bonus de sauvegarde
-    var TestSaveClasse = TabSaveClasse[RangClasse].split("/");
+    var TestSaveClasse = data.cla_savetab.split("/");
     for (i = 0; i < 6; i++) {
         if (TestSaveClasse[i] == "true") {
 
             BonClasse[i + 1] = maitrise;
         }
     }
+    $("#msgcomp").text(data.cla_competences);
+    // calcul des PV 
+    if ($("#formclass").val() != "defaut") {
+       $("#pv").val(parseInt(data.cla_DV) + parseInt(TabCar[33].value));
+        $("#dv").val("D" + parseInt(data.cla_DV));
+    }
 
-    MsgComp.innerHTML = CompClasse[RangClasse];
+// capacités de classe 
+$("#capacite_classe").empty();
+    for (i = 0; i < data.capcl_nom_capacite.length; i++) {
+        TitreCR = document.createElement("button");
+        TitreCR.setAttribute("type", "button");
+
+        TitreCR.setAttribute("class", " font-weight-bold text-reset btn btn-link  text-left d-block");
+        TitreCR.setAttribute("data-toggle", "popover");
+        TitreCR.setAttribute("data-content", data.capcl_description[i]);
+        TitreCR.textContent = data.capcl_nom_capacite[i];
+        $("#capacite_classe").append(TitreCR);
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    }   
 
 
 
-
-    // switch (Vclasse.value) {
-    //     case "clerc":
-    //         for (i = 1; i <= 6; i++) {
-    //             BonClasse[i] = 0;
-    //         }
-    //         BonClasse[5] = 2;
-    //         BonClasse[6] = 2;
-    //         DeVie = 8;
-    //         MsgComp.innerHTML = "choisissez deux compétences parmi Histoire, Médecine, Perspicacité, Persuasion et Religion"
-    //         break;
-    //     case "guerrier":
-    //         for (i = 1; i <= 6; i++) {
-    //             BonClasse[i] = 0;
-    //         }
-    //         BonClasse[1] = 2;
-    //         BonClasse[3] = 2;
-    //         DeVie = 10;
-    //         MsgComp.innerHTML = "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Perception, Perspicacité et Survie"
-
-    //         break;
-    //     case "magicien":
-    //         for (i = 1; i <= 6; i++) {
-    //             BonClasse[i] = 0;
-    //         }
-    //         BonClasse[4] = 2;
-    //         BonClasse[5] = 2;
-    //         DeVie = 6;
-    //         MsgComp.innerHTML = "choisissez deux compétences parmi Arcanes, Histoire, Investigation, Médecine, Perspicacité et Religion"
-
-    //         break;
-    //     case "roublard":
-    //         for (i = 1; i <= 6; i++) {
-    //             BonClasse[i] = 0;
-    //         }
-    //         BonClasse[2] = 2;
-    //         BonClasse[4] = 2;
-    //         DeVie = 8;
-    //         MsgComp.innerHTML = "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Investigation, Perception, Perspicacité, Persuasion, Représentation et Tromperie"
-
-    //         break;
-    //     case "":
-    //         for (i = 1; i <= 6; i++) {
-    //             BonClasse[i] = 0;
-    //             MsgComp.innerHTML = "";
-    //         }
-    //         break;
-
-    // }
     CalCarac();
     FCheckComp();
 }

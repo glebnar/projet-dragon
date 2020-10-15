@@ -6,9 +6,7 @@ $requete_sous_classe->execute();
 ?>
 
 
-<label for="SS_race">Sous-races</label>
-    <select name="SS_race" id="SS_race" class="form-control">
-        <option value="">Choisissez</option>
+        <option value="defaut">Choisissez</option>
     <?php  
     while ($option_sous_classe=$requete_sous_classe->fetch(PDO::FETCH_OBJ))
         { ?>
@@ -17,4 +15,3 @@ $requete_sous_classe->execute();
 
 
       <?php  } ?>
-    </select>
