@@ -157,7 +157,7 @@ $("#SS_classe").on('input', function(){
         )
 
         $.get(
-            'script_sort_bonus',
+            'script_sort_bonus.php',
             {
                 sousclasse:$("#SS_classe").val(),
             },
